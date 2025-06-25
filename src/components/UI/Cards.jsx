@@ -1,31 +1,36 @@
 import React, { useState, useEffect } from "react";
-import logo from "../../assets/Carousel.png";
+import Carousel2 from "../../assets/Carousel2.png";
+import Carousel3 from "../../assets/Carousel3.png";
+import Carousel from "../../assets/Carousel.png";
+import Carousel5 from "../../assets/Carousel5.png";
+import Carousel4 from "../../assets/Carousel4.png";
 
 function Cards() {
-  const originalImages = [logo, logo, logo, logo, logo];
+  const originalImages = [
+    Carousel,
+    Carousel2,
+    Carousel3,
+    Carousel4,
+    Carousel5,
+    Carousel,
+    Carousel2,
+    Carousel3,
+    Carousel4,
+    Carousel5,
+  ];
 
-  const images = [...originalImages, ...originalImages, ...originalImages];
+  const images = Array(100)
+    .fill(null)
+    .map((_, index) => originalImages[index % originalImages.length]);
 
-  const [currentIndex, setCurrentIndex] = useState(originalImages.length);
+  const [currentIndex, setCurrentIndex] = useState(50);
 
   const nextImage = () => {
-    setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex + 1;
-      if (newIndex >= images.length) {
-        return originalImages.length;
-      }
-      return newIndex;
-    });
+    setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
   const prevImage = () => {
-    setCurrentIndex((prevIndex) => {
-      const newIndex = prevIndex - 1;
-      if (newIndex < 0) {
-        return images.length - originalImages.length - 1;
-      }
-      return newIndex;
-    });
+    setCurrentIndex((prevIndex) => prevIndex - 1);
   };
 
   useEffect(() => {
@@ -79,7 +84,7 @@ function Cards() {
           {originalImages.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index + originalImages.length)}
+              onClick={() => setCurrentIndex(50 + index)}
               className={`w-3 h-3 rounded-full transition-all duration-200 ${
                 getRealIndex(currentIndex) === index
                   ? "bg-white"
