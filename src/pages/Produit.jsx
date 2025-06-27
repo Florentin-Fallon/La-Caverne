@@ -194,7 +194,9 @@ function Produit() {
               Envoyer
             </button>
           </div>
-          <div className="flex flex-row flex-wrap gap-10 ">
+          <div className="flex flex-row flex-wrap gap-4">
+            <CardRating />
+            <CardRating />
             <CardRating />
             <CardRating />
             <CardRating />

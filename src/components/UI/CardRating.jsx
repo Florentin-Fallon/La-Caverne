@@ -3,7 +3,7 @@ import logo from "../../assets/bonny_the_parrot.png";
 
 function CardRating() {
   return (
-    <div className="flex flex-row gap-4 bg-white rounded-lg p-4 w-2/5 transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
+    <div className="flex flex-row gap-4 bg-white rounded-lg p-4 w-[calc(50%-0.5rem)] transition-all duration-300 ease-in-out shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 cursor-pointer">
       <img src={logo} alt="rating" className="w-10 h-10" />
       <div>
         <h2 className="text-lg font-bold">Jean</h2>
