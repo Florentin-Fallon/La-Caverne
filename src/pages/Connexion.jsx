@@ -1,6 +1,7 @@
 import React from "react";
 import background from "../assets/bgConnexionInscription.png";
 import logoe from "../assets/logoe.png";
+import {Link, Links} from "react-router-dom";
 
 function Connexion() {
   return (
@@ -26,11 +27,16 @@ function Connexion() {
                         <button className='bg-[#346644] text-white rounded-md cursor-pointer px-4 py-2 hover:bg-[#215130] transition duration-200'>
                             Connexion
                         </button>
-                        <button className='bg-[#346644] text-white rounded-md cursor-pointer px-4 py-2 hover:bg-[#215130] transition duration-200'>
-                            Inscription
-                        </button>
+                        <div className='flex items-center justify-center pt-2'>
+                            <p className='text-gray-500 rounded-md'>
+                                Vous n'avez pas de compte ?
+                            </p>
+                            <button className='text-[#346644] px-2 underline cursor-pointer'>
+                                <Link to="/inscription">Inscrivez-vous</Link>
+                            </button>
+                        </div>
                     </div>
-                    <div className='bg-gray-400 w-[375px]'>
+                    <div className='bg-gray-400 w-[475px] h-[1px]'>
                     </div>
                     <div className='flex flex-col space-y-1 w-[375px] mb-20'>
                         <button className='text-black rounded-md border-2 cursor-pointer px-4 py-2'>
