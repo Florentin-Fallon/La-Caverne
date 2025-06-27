@@ -244,14 +244,15 @@ function Sell() {
   return (
     <div className="bg-[#0F2E19] min-h-screen pt-10 pb-12">
       <div className="bg-green-50 mx-8 rounded-2xl p-4 shadow-lg">
-        {/* Titre avec bouton de retour */}
+        
         <div className="flex justify-between items-center mb-6 border-b-2 pb-4 border-green-200">
           <h1 className="text-2xl font-bold text-gray-800">
             Vendre un article sur La Caverne
           </h1>
+          
           <button
             onClick={() => navigate("/")}
-            className="text-[#346644] hover:text-[#2a5538] transition-colors"
+            className="text-[#346644] hover:text-[#ffffff] transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -289,7 +290,7 @@ function Sell() {
           onFinish={onFinish}
           className="max-w-4xl mx-auto"
         >
-          <Card className="shadow-xl">{steps[currentStep].content}</Card>
+          <Card className="bg-red-200 shadow-xl">{steps[currentStep].content}</Card>
 
           <div className="flex justify-between mt-8 pt-6 relative">
             {currentStep > 0 && (
