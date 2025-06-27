@@ -24,7 +24,6 @@ function App() {
         <Route path="/informatique" element={<Informatique />} />
         <Route path="/bricolage" element={<Bricolage />} />
         <Route path="/produit/:id" element={<Produit />} />
-        <Route path="/sell" element={<Sell />} />
       </Routes>
     </BrowserRouter>
   );
