@@ -3,7 +3,7 @@ import { Tag } from "antd";
 
 function CardProduct() {
   return (
-    <div className="flex flex-col items-start justify-center gap-2 mt-35 border-2 border-transparent hover:border-white cursor-pointer rounded-2xl p-5 my-5">
+    <div className="flex flex-col items-start justify-center gap-1 border-2 border-transparent hover:border-white cursor-pointer rounded-2xl p-3 my-5">
       <div>
         <img
           src="https://picsum.photos/200"
