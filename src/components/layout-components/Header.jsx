@@ -43,7 +43,7 @@ function Header() {
         </div>
         <div className="flex items-center justify-center gap-5">
           <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
-            <Link to="/vendre">Vendre</Link>
+            <Link to="/sell">Vendez vos articles</Link>
           </button>
           <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
             <Link to="/connexion">Connexion</Link>
