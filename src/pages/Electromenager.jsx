@@ -2,8 +2,12 @@ import React from "react";
 import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
+import { getProductsByCategory } from "../data/products";
 
 function Electromenager() {
+  // Récupérer tous les produits de la catégorie Électroménager
+  const electromenagerProducts = getProductsByCategory("Électroménager");
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -17,27 +21,16 @@ function Electromenager() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardProductFull
-            id="refrigerateur-samsung"
-            title="Réfrigérateur Samsung"
-            description="No Frost, 350L"
-            price="599 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="machine-laver-bosch"
-            title="Machine à laver Bosch"
-            description="9kg, Classe A+++"
-            price="449 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="four-electrique-whirlpool"
-            title="Four électrique Whirlpool"
-            description="Multifonction, 60L"
-            price="299 €"
-            image="https://picsum.photos/200"
-          />
+          {electromenagerProducts.map((product) => (
+            <CardProductFull
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
         </div>
       </main>
       <Footer />

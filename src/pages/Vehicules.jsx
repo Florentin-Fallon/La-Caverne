@@ -2,8 +2,12 @@ import React from "react";
 import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
+import { getProductsByCategory } from "../data/products";
 
 function Vehicules() {
+  // Récupérer tous les produits de la catégorie Véhicules
+  const vehiculesProducts = getProductsByCategory("Véhicules");
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -15,27 +19,16 @@ function Vehicules() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardProductFull
-            id="peugeot-208"
-            title="Peugeot 208"
-            description="2021, 45 000 km, Essence"
-            price="15 500 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="renault-clio"
-            title="Renault Clio"
-            description="2020, 32 000 km, Diesel"
-            price="13 800 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="citroen-c3"
-            title="Citroën C3"
-            description="2022, 18 000 km, Essence"
-            price="18 200 €"
-            image="https://picsum.photos/200"
-          />
+          {vehiculesProducts.map((product) => (
+            <CardProductFull
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
         </div>
       </main>
       <Footer />

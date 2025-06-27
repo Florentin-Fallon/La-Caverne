@@ -42,11 +42,31 @@ function Header() {
           </Link>
         </div>
         <div className="flex items-center justify-center gap-5">
-          <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
+          <button className="bg-[#346644] text-white px-4 py-2 rounded-md hover:bg-[#0F2E19] transition-colors duration-200">
             <Link to="/sell">Vendez vos articles</Link>
           </button>
-          <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
+          <button className="bg-[#346644] text-white px-4 py-2 rounded-md hover:bg-[#0F2E19] transition-colors duration-200">
             <Link to="/connexion">Connexion</Link>
+          </button>
+          <button className="bg-[#346644] text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-[#0F2E19] transition-colors duration-200">
+            <Link to="/connexion" className="flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              Panier
+            </Link>
           </button>
         </div>
       </div>

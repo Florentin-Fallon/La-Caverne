@@ -2,8 +2,12 @@ import React from "react";
 import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
+import { getProductsByCategory } from "../data/products";
 
 function Immobilier() {
+  // Récupérer tous les produits de la catégorie Immobilier
+  const immobilierProducts = getProductsByCategory("Immobilier");
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -15,27 +19,16 @@ function Immobilier() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardProductFull
-            id="appartement-t3-paris"
-            title="Appartement T3"
-            description="Paris, 15ème arrondissement"
-            price="450 000 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="maison-jardin-lyon"
-            title="Maison avec jardin"
-            description="Lyon, 69000"
-            price="650 000 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="studio-meuble-marseille"
-            title="Studio meublé"
-            description="Marseille, 13001"
-            price="180 000 €"
-            image="https://picsum.photos/200"
-          />
+          {immobilierProducts.map((product) => (
+            <CardProductFull
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
         </div>
       </main>
       <Footer />

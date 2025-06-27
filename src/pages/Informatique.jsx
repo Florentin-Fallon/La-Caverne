@@ -2,8 +2,12 @@ import React from "react";
 import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
+import { getProductsByCategory } from "../data/products";
 
 function Informatique() {
+  // Récupérer tous les produits de la catégorie Informatique
+  const informatiqueProducts = getProductsByCategory("Informatique");
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -17,27 +21,16 @@ function Informatique() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardProductFull
-            id="macbook-pro-13"
-            title="MacBook Pro 13"
-            description="M2, 8GB RAM, 256GB SSD"
-            price="1 299 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="iphone-15-pro"
-            title="iPhone 15 Pro"
-            description="128GB, Titane naturel"
-            price="1 199 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="dell-xps-15"
-            title="Dell XPS 15"
-            description="Intel i7, 16GB RAM, 512GB SSD"
-            price="1 599 €"
-            image="https://picsum.photos/200"
-          />
+          {informatiqueProducts.map((product) => (
+            <CardProductFull
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
         </div>
       </main>
       <Footer />

@@ -8,6 +8,7 @@ import Vehicules from "./pages/Vehicules";
 import Informatique from "./pages/Informatique";
 import Bricolage from "./pages/Bricolage";
 import Produit from "./pages/Produit";
+import Sell from "./pages/Sell";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/informatique" element={<Informatique />} />
         <Route path="/bricolage" element={<Bricolage />} />
         <Route path="/produit/:id" element={<Produit />} />
+        <Route path="/sell" element={<Sell />} />
       </Routes>
     </BrowserRouter>
   );

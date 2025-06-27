@@ -2,8 +2,12 @@ import React from "react";
 import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
+import { getProductsByCategory } from "../data/products";
 
 function Bricolage() {
+  // Récupérer tous les produits de la catégorie Bricolage
+  const bricolageProducts = getProductsByCategory("Bricolage");
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -15,27 +19,16 @@ function Bricolage() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <CardProductFull
-            id="perceuse-bosch"
-            title="Perceuse sans fil Bosch"
-            description="18V, 2 batteries incluses"
-            price="89 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="scie-circulaire-makita"
-            title="Scie circulaire Makita"
-            description="1200W, lame 190mm"
-            price="149 €"
-            image="https://picsum.photos/200"
-          />
-          <CardProductFull
-            id="tournevis-electrique"
-            title="Tournevis électrique"
-            description="4.8V, 30 embouts inclus"
-            price="45 €"
-            image="https://picsum.photos/200"
-          />
+          {bricolageProducts.map((product) => (
+            <CardProductFull
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+          ))}
         </div>
       </main>
       <Footer />
