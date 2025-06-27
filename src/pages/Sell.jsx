@@ -144,14 +144,14 @@ function Sell() {
           <Form.Item
             name="description"
             label={
-              <span className="font-medium text-gray-700">Descriptions s</span>
+              <span className="font-medium text-gray-700">Descriptions</span>
             }
             rules={[{ required: true, message: "Ce champ est obligatoire" }]}
           >
             <TextArea
               rows={6}
               placeholder="Décrivez précisément votre article (état, spécificités, raison de la vente...)"
-              className="rounded-lg border-gray-300 hover:border-[#346644] focus:border-[#346644]"
+              className="rounded-lg border-green-200 hover:border-green-800 focus:border-[#346644]"
             />
           </Form.Item>
 
@@ -242,17 +242,46 @@ function Sell() {
   ];
 
   return (
-    <div className="bg-[#0F2E19] min-h-screen pt-5 pb-10">
-      <div className="bg-white mx-5 rounded-2xl p-5 shadow-lg">
-        <h1 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-4 border-gray-200">
-          Vendre un article sur La Caverne
-        </h1>
+    <div className="bg-[#0F2E19] min-h-screen pt-10 pb-12">
+      <div className="bg-green-50 mx-8 rounded-2xl p-4 shadow-lg">
+        {/* Titre avec bouton de retour */}
+        <div className="flex justify-between items-center mb-6 border-b-2 pb-4 border-green-200">
+          <h1 className="text-2xl font-bold text-gray-800">
+            Vendre un article sur La Caverne
+          </h1>
+          <button
+            onClick={() => navigate("/")}
+            className="text-[#346644] hover:text-[#2a5538] transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
 
-        <Steps current={currentStep} className="mb-8 px-4">
-          {steps.map((item) => (
-            <Step key={item.title} title={item.title} />
-          ))}
-        </Steps>
+        <div className="mb-10">
+          {" "}
+          <Steps
+            current={currentStep}
+            className="px-4"
+            labelPlacement="vertical"
+          >
+            {steps.map((item) => (
+              <Step key={item.title} title={item.title} />
+            ))}
+          </Steps>
+        </div>
 
         <Form
           form={form}
@@ -260,27 +289,17 @@ function Sell() {
           onFinish={onFinish}
           className="max-w-4xl mx-auto"
         >
-          <Card className="border-0 shadow-none">
-            {steps[currentStep].content}
-          </Card>
+          <Card className="shadow-xl">{steps[currentStep].content}</Card>
 
-          <div className="flex justify-between mt-8 border-t pt-6 border-gray-200">
+          <div className="flex justify-between mt-8 pt-6 relative">
             {currentStep > 0 && (
-              <Button
-                onClick={prevStep}
-                size="large"
-                className="border-[#346644] text-[#346644] hover:bg-[#f0f7f2]"
-              >
+              <Button onClick={prevStep} size="large">
                 Précédent
               </Button>
             )}
 
             {currentStep < steps.length - 1 ? (
-              <Button
-                onClick={nextStep}
-                size="large"
-                className="bg-[#346644] text-white hover:bg-[#2a5538] ml-auto"
-              >
+              <Button onClick={nextStep} size="large" className="ml-auto">
                 Suivant
               </Button>
             ) : (
