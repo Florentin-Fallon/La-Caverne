@@ -78,8 +78,8 @@ function Sell() {
     {
       title: "Photos",
       content: (
-        <div className="flex justify-center items-center min-h-[50vh]">
-          <div className="w-full max-w-lg p-6 border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors">
+        <div className="flex justify-center items-center min-h-[50vh] w-full">
+          <div className="w-full max-w-md p-6 border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">
               Ajoutez vos photos
             </h2>
@@ -122,14 +122,14 @@ function Sell() {
       title: "Détails",
       content: (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-6 text-gray-800">
+          <h2 className="text-xl font-semibold mb-6 text-green-800">
             Décrivez votre article
           </h2>
 
           <Form.Item
             name="title"
             label={
-              <span className="font-medium text-gray-700">
+              <span className="font-medium text-green-900">
                 Titre de l'annonce
               </span>
             }
@@ -137,21 +137,21 @@ function Sell() {
           >
             <Input
               placeholder="Ex: Ordinateur portable HP en excellent état"
-              className="py-2 rounded-lg border-gray-300 hover:border-[#346644] focus:border-[#346644]"
+              className="py-2 rounded-lg border-green-800 hover:border-[#346644]"
             />
           </Form.Item>
 
           <Form.Item
             name="description"
             label={
-              <span className="font-medium text-gray-700">Descriptions</span>
+              <span className="font-medium text-green-900">Descriptions</span>
             }
             rules={[{ required: true, message: "Ce champ est obligatoire" }]}
           >
             <TextArea
               rows={6}
               placeholder="Décrivez précisément votre article (état, spécificités, raison de la vente...)"
-              className="rounded-lg border-green-200 hover:border-green-800 focus:border-[#346644]"
+              className="rounded-lg border-green-800 hover:border-green-700 focus:border-[#346644]"
             />
           </Form.Item>
 
@@ -159,13 +159,13 @@ function Sell() {
             <Form.Item
               name="category"
               label={
-                <span className="font-medium text-gray-700">Catégorie</span>
+                <span className="font-medium text-green-900">Catégorie</span>
               }
               rules={[{ required: true, message: "Ce champ est obligatoire" }]}
             >
               <Select
                 placeholder="Sélectionnez une catégorie"
-                className="rounded-lg border-gray-300 hover:border-[#346644]"
+                className="rounded-lg border-green-800 hover:border-[#346644]"
               >
                 <Option value="immobilier">Immobilier</Option>
                 <Option value="electromenager">Électroménager</Option>
@@ -178,7 +178,7 @@ function Sell() {
             <Form.Item
               name="price"
               label={
-                <span className="font-medium text-gray-700">Prix (€)</span>
+                <span className="font-medium text-green-900">Prix (€)</span>
               }
               rules={[{ required: true, message: "Ce champ est obligatoire" }]}
             >
@@ -197,43 +197,42 @@ function Sell() {
       title: "Localisation",
       content: (
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-6 text-gray-800">
+          <h2 className="text-xl font-semibold mb-6 text-green-800">
             Où se trouve votre article ?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Form.Item
               name="city"
-              label={<span className="font-medium text-gray-700">Ville</span>}
+              label={<span className="font-medium text-green-900">Ville</span>}
               rules={[{ required: true, message: "Ce champ est obligatoire" }]}
             >
               <Input
                 placeholder="Ex: Paris"
-                className="py-2 rounded-lg border-gray-300 hover:border-[#346644] focus:border-[#346644]"
+                className="py-2 rounded-lg border-green-800 hover:border-[#346644]"
               />
             </Form.Item>
 
             <Form.Item
               name="postalCode"
               label={
-                <span className="font-medium text-gray-700">Code postal</span>
+                <span className="font-medium text-green-900">Code postal</span>
               }
               rules={[{ required: true, message: "Ce champ est obligatoire" }]}
             >
               <Input
                 placeholder="Ex: 75000"
-                className="py-2 rounded-lg border-gray-300 hover:border-[#346644] focus:border-[#346644]"
+                className="py-2 rounded-lg border-green-800 hover:border-[#346644]"
               />
             </Form.Item>
           </div>
 
-          <div className="mt-8 p-4 bg-[#f8faf7] border border-[#e8f3e5] rounded-lg">
-            <h3 className="font-medium text-gray-700 mb-2">
+          <div className="mt-8 p-4 bg-[#CFF3CF] border border-[#346644] rounded-lg">
+            <h3 className="font-medium text-green-900 mb-2">
               Conseil de sécurité
             </h3>
             <p className="text-gray-600 text-sm">
-              Pour votre sécurité, privilégiez les rencontres dans des lieux
-              publics. Ne communiquez pas d'informations personnelles sensibles.
+              Pour votre sécurité, ne communiquez pas d'informations personnelles sensibles.
             </p>
           </div>
         </div>
@@ -242,16 +241,17 @@ function Sell() {
   ];
 
   return (
-    <div className="bg-[#0F2E19] min-h-screen pt-10 pb-12">
-      <div className="bg-green-50 mx-8 rounded-2xl p-4 shadow-lg">
+    <div className="bg-[#0F2E19] min-h-screen flex justify-center items-center pt-10 pb-12">
+      <div className="bg-green-50 mx-8 rounded-2xl p-10 w-2/2 shadow-lg">
         {/* Titre avec bouton de retour */}
         <div className="flex justify-between items-center mb-6 border-b-2 pb-4 border-green-200">
           <h1 className="text-2xl font-bold text-gray-800">
             Vendre un article sur La Caverne
           </h1>
+          
           <button
             onClick={() => navigate("/")}
-            className="text-[#346644] hover:text-[#2a5538] transition-colors"
+            className="text-[#346644] hover:text-[#ffffff] transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -287,11 +287,12 @@ function Sell() {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="max-w-4xl mx-auto"
+          className="w-full flex flex-col items-center"
         >
-          <Card className="shadow-xl">{steps[currentStep].content}</Card>
-
-          <div className="flex justify-between mt-8 pt-6 relative">
+          <div className="w-full max-w-2xl">
+            <Card className="shadow-xl">{steps[currentStep].content}</Card>
+          </div>
+          <div className="w-full max-w-2xl flex justify-between mt-8 pt-6 relative">
             {currentStep > 0 && (
               <Button onClick={prevStep} size="large">
                 Précédent
