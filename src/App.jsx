@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Inscription from "./pages/Inscription.jsx";
 import Connexion from "./pages/Connexion";
+import Sell from "./pages/Sell";
 import Immobilier from "./pages/Immobilier";
 import Electromenager from "./pages/Electromenager";
 import Vehicules from "./pages/Vehicules";
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
+        <Route path="/sell" element={<Sell />} />
         <Route path="/immobilier" element={<Immobilier />} />
         <Route path="/electromenager" element={<Electromenager />} />
         <Route path="/vehicules" element={<Vehicules />} />
