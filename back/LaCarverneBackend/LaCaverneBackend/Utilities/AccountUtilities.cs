@@ -6,7 +6,7 @@ public static class AccountUtilities
     {
         if (password.Length < 8) return false;
         if (!password.Any(char.IsLetter)) return false;
-        if (password.Count(char.IsDigit) < 2) return false;
+        if (!password.Any(char.IsDigit)) return false;
 
         return true;
     }

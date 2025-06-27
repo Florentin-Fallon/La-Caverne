@@ -1,12 +1,14 @@
-﻿using LaCaverneBackend.Database;
+﻿using System.Security.Claims;
+using LaCaverneBackend.Database;
 using LaCaverneBackend.Database.Models;
 using LaCaverneBackend.Dto;
 using LaCaverneBackend.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaCaverneBackend.Controllers;
 
-[Route("account")]
+[Route("accounts")]
 public class AccountController : ControllerBase
 {
     private LaCaverneDbContext _db;
@@ -19,12 +21,14 @@ public class AccountController : ControllerBase
     [HttpPost]
     public object CreateAccount([FromBody] CreateAccountDto dto)
     {
+        if (!dto.Email.Contains('@'))
+            return BadRequest("invalid email address");
         if (_db.Accounts.Any(account => account.Email == dto.Email))
             return BadRequest("an account with this email already exists");
         if (dto.Password != dto.ConfirmPassword)
             return BadRequest("passwords do not match");
         if (!AccountUtilities.ValidatePassword(dto.Password))
-            return BadRequest("invalid password: must be at least 8 characters long, contain at least two digits, and at least one letter");
+            return BadRequest("invalid password: must be at least 8 characters long, contain at least one digit, and one letter");
 
         Account account = new Account
         {
@@ -36,6 +40,27 @@ public class AccountController : ControllerBase
         _db.Accounts.Add(account);
         _db.SaveChanges();
 
-        return Ok(new AccountDto(account));
+        return Ok(new AccountLoginResponseDto(account, account.CreateToken(_db)));
+    }
+    
+    [Authorize]
+    [HttpGet("account")]
+    public object GetLoggedInAccount()
+    {
+        return Ok(new AccountDto(User.Account(_db)));
+    }
+
+    [HttpPost("login")]
+    public object Login([FromBody] LoginAccountDto dto)
+    {
+        if (!dto.Email.Contains('@'))
+            return BadRequest("invalid email address");
+
+        Account? account = _db.Accounts.FirstOrDefault(account => account.Email == dto.Email);
+        if (account == null || !account.CheckPassword(dto.Password))
+            return BadRequest("account does not exist or password is incorrect");
+
+        string token = account.CreateToken(_db);
+        return new AccountLoginResponseDto(account, token);
     }
 }

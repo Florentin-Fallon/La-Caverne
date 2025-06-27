@@ -13,6 +13,7 @@ public class LaCaverneDbContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagAccount> TagAccounts { get; set; }
     public DbSet<TagArticle> TagArticles { get; set; }
+    public DbSet<UserToken> Tokens { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
