@@ -9,7 +9,6 @@ import Vehicules from "./pages/Vehicules";
 import Informatique from "./pages/Informatique";
 import Bricolage from "./pages/Bricolage";
 import Produit from "./pages/Produit";
-import Sell from "./pages/Sell";
 
 function App() {
   return (

@@ -5,11 +5,12 @@ export const products = {
     seller: "Apple",
     price: "1 299 €",
     category: "Informatique",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
     images: [
-      "https://picsum.photos/400",
-      "https://picsum.photos/401",
-      "https://picsum.photos/402",
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop",
     ],
     details:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
@@ -28,11 +29,12 @@ export const products = {
     seller: "Apple",
     price: "1 199 €",
     category: "Informatique",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop",
     images: [
-      "https://picsum.photos/400",
-      "https://picsum.photos/403",
-      "https://picsum.photos/404",
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&h=300&fit=crop",
     ],
     details:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
@@ -51,11 +53,12 @@ export const products = {
     seller: "Dell",
     price: "1 599 €",
     category: "Informatique",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop",
     images: [
-      "https://picsum.photos/400",
-      "https://picsum.photos/405",
-      "https://picsum.photos/406",
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
     ],
     details:
       "Dell XPS 15 avec processeur Intel Core i7 de 12e génération, 16GB de RAM et 512GB de stockage SSD. Écran 15,6 pouces 4K Ultra HD avec technologie InfinityEdge. Parfait pour les professionnels créatifs.",
@@ -74,7 +77,8 @@ export const products = {
     seller: "Bosch",
     price: "89 €",
     category: "Bricolage",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1581147036324-c1c89c2c8b5c?w=400&h=300&fit=crop",
     details:
       "Perceuse-visseuse sans fil Bosch Professional GSR 18V-60. Puissance et autonomie pour tous vos projets de bricolage. Livrée avec 2 batteries 18V et un chargeur rapide.",
     specifications: [
@@ -92,7 +96,8 @@ export const products = {
     seller: "Makita",
     price: "149 €",
     category: "Bricolage",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1581147036324-c1c89c2c8b5c?w=400&h=300&fit=crop",
     details:
       "Scie circulaire Makita 5007MG avec moteur 1200W et lame 190mm. Guidage laser intégré et système de protection contre les redémarrages. Idéale pour les coupes précises dans le bois.",
     specifications: [
@@ -110,7 +115,8 @@ export const products = {
     seller: "Black & Decker",
     price: "45 €",
     category: "Bricolage",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1581147036324-c1c89c2c8b5c?w=400&h=300&fit=crop",
     details:
       "Tournevis électrique sans fil avec batterie 4.8V rechargeable. Livré avec 30 embouts différents et un étui de rangement. Parfait pour les petits travaux d'assemblage.",
     specifications: [
@@ -128,7 +134,8 @@ export const products = {
     seller: "Peugeot",
     price: "15 500 €",
     category: "Véhicules",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop",
     details:
       "Peugeot 208 de 2021 en excellent état. 45 000 km au compteur, moteur essence 1.2 PureTech 100ch. Équipements : climatisation, GPS, caméra de recul, régulateur de vitesse.",
     specifications: [
@@ -146,7 +153,8 @@ export const products = {
     seller: "Renault",
     price: "13 800 €",
     category: "Véhicules",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop",
     details:
       "Renault Clio de 2020 en très bon état. 32 000 km au compteur, moteur diesel 1.5 dCi 85ch. Équipements : climatisation automatique, GPS, radar de recul, sièges chauffants.",
     specifications: [
@@ -164,7 +172,8 @@ export const products = {
     seller: "Citroën",
     price: "18 200 €",
     category: "Véhicules",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop",
     details:
       "Citroën C3 de 2022 en parfait état. 18 000 km au compteur, moteur essence 1.2 PureTech 110ch. Équipements : climatisation, GPS, caméra 360°, régulateur adaptatif.",
     specifications: [
@@ -184,7 +193,8 @@ export const products = {
     seller: "Didier",
     price: "599 €",
     category: "Électroménager",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?w=400&h=300&fit=crop",
     details:
       "Réfrigérateur Samsung avec technologie No Frost. Capacité de 350L avec congélateur intégré. Classe énergétique A++ pour des économies d'énergie. Design moderne et fonctionnel.",
     specifications: [
@@ -202,7 +212,8 @@ export const products = {
     seller: "François",
     price: "449 €",
     category: "Électroménager",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
     details:
       "Machine à laver Bosch avec capacité de 9kg. Classe énergétique A+++ pour une consommation optimale. 15 programmes de lavage et système anti-vibration. Parfait pour une famille.",
     specifications: [
@@ -220,7 +231,8 @@ export const products = {
     seller: "Damien",
     price: "299 €",
     category: "Électroménager",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
     details:
       "Four électrique Whirlpool multifonction avec capacité de 60L. 8 modes de cuisson et nettoyage pyrolyse. Classe énergétique A pour des économies d'énergie. Idéal pour tous types de cuisson.",
     specifications: [
@@ -240,7 +252,8 @@ export const products = {
     description: "La Fôret",
     price: "450 000 €",
     category: "Immobilier",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop",
     details:
       "Bel appartement T3 dans le 15ème arrondissement de Paris. Entièrement rénové avec des matériaux de qualité. Séjour lumineux, cuisine équipée, 2 chambres et salle de bain. Proche transports.",
     specifications: [
@@ -258,7 +271,8 @@ export const products = {
     description: "La Fôret",
     price: "650 000 €",
     category: "Immobilier",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop",
     details:
       "Belle maison individuelle avec jardin de 200m² à Lyon. 4 chambres, 2 salles de bain, garage et terrasse. Quartier calme et résidentiel. Proche écoles et commerces.",
     specifications: [
@@ -276,7 +290,8 @@ export const products = {
     description: "Agence immobilière Lalouette",
     price: "180 000 €",
     category: "Immobilier",
-    image: "https://picsum.photos/400",
+    image:
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop",
     details:
       "Studio meublé de 25m² au cœur de Marseille, 1er arrondissement. Entièrement équipé et meublé. Idéal pour investissement locatif ou résidence étudiante. Proche Vieux-Port et transports.",
     specifications: [
