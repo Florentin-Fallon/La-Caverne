@@ -10,13 +10,41 @@ function Header() {
           <img src={logo} alt="logo" className="w-35 h-9" />
         </Link>
         <div className="flex items-center justify-center gap-5">
-          <h1>Immobilier</h1>
-          <h1>Électroménager</h1>
-          <h1>Véhicules</h1>
-          <h1>Informatique</h1>
-          <h1>Bricolage</h1>
+          <Link
+            to="/immobilier"
+            className="hover:text-[#346644] transition-colors duration-200"
+          >
+            <h1>Immobilier</h1>
+          </Link>
+          <Link
+            to="/electromenager"
+            className="hover:text-[#346644] transition-colors duration-200"
+          >
+            <h1>Électroménager</h1>
+          </Link>
+          <Link
+            to="/vehicules"
+            className="hover:text-[#346644] transition-colors duration-200"
+          >
+            <h1>Véhicules</h1>
+          </Link>
+          <Link
+            to="/informatique"
+            className="hover:text-[#346644] transition-colors duration-200"
+          >
+            <h1>Informatique</h1>
+          </Link>
+          <Link
+            to="/bricolage"
+            className="hover:text-[#346644] transition-colors duration-200"
+          >
+            <h1>Bricolage</h1>
+          </Link>
         </div>
         <div className="flex items-center justify-center gap-5">
+          <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
+            <Link to="/sell">Vendez vos articles</Link>
+          </button>
           <button className="bg-[#346644] text-white px-4 py-2 rounded-md">
             <Link to="/connexion">Connexion</Link>
           </button>
