@@ -78,8 +78,8 @@ function Sell() {
     {
       title: "Photos",
       content: (
-        <div className="flex justify-center items-center min-h-[50vh]">
-          <div className="w-full max-w-lg p-6 border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors">
+        <div className="flex justify-center items-center min-h-[50vh] w-full">
+          <div className="w-full max-w-md p-6 border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">
               Ajoutez vos photos
             </h2>
@@ -242,9 +242,9 @@ function Sell() {
   ];
 
   return (
-    <div className="bg-[#0F2E19] min-h-screen pt-10 pb-12">
-      <div className="bg-green-50 mx-8 rounded-2xl p-4 shadow-lg">
-        
+    <div className="bg-[#0F2E19] min-h-screen flex justify-center items-center pt-10 pb-12">
+      <div className="bg-green-50 mx-8 rounded-2xl p-10 w-2/2 shadow-lg">
+        {/* Titre avec bouton de retour */}
         <div className="flex justify-between items-center mb-6 border-b-2 pb-4 border-green-200">
           <h1 className="text-2xl font-bold text-gray-800">
             Vendre un article sur La Caverne
@@ -288,11 +288,12 @@ function Sell() {
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          className="max-w-4xl mx-auto"
+          className="w-full flex flex-col items-center"
         >
-          <Card className="bg-red-200 shadow-xl">{steps[currentStep].content}</Card>
-
-          <div className="flex justify-between mt-8 pt-6 relative">
+          <div className="w-full max-w-2xl">
+            <Card className="shadow-xl">{steps[currentStep].content}</Card>
+          </div>
+          <div className="w-full max-w-2xl flex justify-between mt-8 pt-6 relative">
             {currentStep > 0 && (
               <Button onClick={prevStep} size="large">
                 Précédent
