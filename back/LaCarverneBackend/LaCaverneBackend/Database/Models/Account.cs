@@ -24,11 +24,18 @@ public class Account
         return BCrypt.Net.BCrypt.Verify(password, Password);
     }
 
-    public string CreateToken(LaCaverneDbContext db)
+    public void RevokeTokens(LaCaverneDbContext db, bool save = true)
     {
         UserToken[] tokens = db.Tokens.Include(t => t.Account)
             .Where(token => token.Account.Id == Id).ToArray();
         if (tokens.Length > 0) db.Tokens.RemoveRange(tokens);
+
+        if (save) db.SaveChanges();
+    }
+
+    public string CreateToken(LaCaverneDbContext db)
+    {
+        RevokeTokens(db, false);
         
         IConfigurationRoot cfg = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         

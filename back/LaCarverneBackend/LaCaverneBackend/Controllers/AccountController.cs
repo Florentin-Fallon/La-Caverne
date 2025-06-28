@@ -63,4 +63,37 @@ public class AccountController : ControllerBase
         string token = account.CreateToken(_db);
         return new AccountLoginResponseDto(account, token);
     }
+    
+    [Authorize]
+    [HttpPost("account/password")]
+    public object ChangePassword([FromBody] ChangePasswordDto dto)
+    {
+        if (!dto.NewPassword.Equals(dto.ConfirmNewPassword))
+            return BadRequest("new passwords do not match");
+        if (!AccountUtilities.ValidatePassword(dto.NewPassword))
+            return BadRequest("invalid password: must be at least 8 characters long, contain at least one digit, and one letter");
+
+        Account? account = User.Account(_db);
+
+        if (!account.CheckPassword(dto.CurrentPassword))
+            return BadRequest("current password is incorrect");
+
+        account.SetPassword(dto.NewPassword);
+        account.RevokeTokens(_db, false);
+        _db.SaveChanges();
+        
+        string newToken = account.CreateToken(_db);
+
+        return Ok(new AccountLoginResponseDto(account, newToken));
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public object Logout()
+    {
+        Account? account = User.Account(_db);
+        account?.RevokeTokens(_db);
+
+        return account == null ? BadRequest() : NoContent();
+    }
 }
