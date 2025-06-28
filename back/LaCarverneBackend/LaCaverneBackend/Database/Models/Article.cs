@@ -7,5 +7,6 @@ public class Article
     public string Description { get; set; }
     public Seller Seller { get; set; }
     public TagArticle[] Tags { get; set; }
+    public Notation[] Notations { get; set; }
     public bool IsParrotSelection { get; set; }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LaCaverneBackend.Controllers;
 
+[ApiController]
 [Route("accounts")]
 public class AccountController : ControllerBase
 {
