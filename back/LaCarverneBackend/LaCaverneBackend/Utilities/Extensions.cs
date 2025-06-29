@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using LaCaverneBackend.Database;
 using LaCaverneBackend.Database.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LaCaverneBackend.Utilities;
@@ -18,4 +19,7 @@ public static class Extensions
 
     public static Seller? GetSellerProfile(this Account account, LaCaverneDbContext db)
         => db.Sellers.Include(seller => seller.Account).FirstOrDefault(seller => seller.Account.Id == account.Id);
+
+    public static string GetWebResourcesFolder(this ControllerBase controller, string suffix = "")
+        => WebResourcesFolders.GetFolder($"{controller.GetType().Name.Replace("Controller", "").Trim().ToLower()}/{suffix}".TrimEnd('/'));
 }

@@ -32,6 +32,44 @@ public class ArticlesController : ControllerBase
                 .ToArray()));
     }
 
+    [HttpGet("{id:int}/images/{imageId:int}")]
+    public object GetImage(uint id, uint imageId)
+    {
+        Article? article = _db.Articles.Find(id);
+        if (article == null) return NotFound();
+
+        string path = this.GetWebResourcesFolder($"article_images/{id}");
+        
+        if (System.IO.File.Exists($"{path}/{imageId}.png"))
+            return File(new FileStream($"{path}/{imageId}.png", FileMode.Open), "image/png");
+        if (System.IO.File.Exists($"{path}/{imageId}.jpg"))
+            return File(new FileStream($"{path}/{imageId}.jpg", FileMode.Open), "image/jpeg");
+        
+        return NotFound();
+    }
+
+    [HttpPost("{id:int}/image")]
+    public object UploadImage(uint id, IFormFile image)
+    {
+        Article? article = _db.Articles.Find(id);
+        if (article == null) return NotFound();
+
+        if (image.ContentType != "image/jpeg" && image.ContentType != "image/png")
+            return BadRequest("image must be JPEG (.jpg) or PNG (.png)");
+
+        int imageId = article.ImageCount;
+        article.ImageCount++;
+        _db.SaveChanges();
+
+        string path = this.GetWebResourcesFolder($"article_images/{id}");
+        string ext = image.ContentType == "image/png" ? "png" :
+            (image.ContentType == "image/jpeg" || image.ContentType == "image/jpg") ? "jpeg" : "wtf";
+        using FileStream newFileStream = new FileStream($"{path}/{imageId}.{ext}", FileMode.Create);
+        image.CopyTo(newFileStream);
+
+        return Created($"/articles/{article.Id}/images/{imageId}", null);
+    }
+
     [HttpGet("{id:int}")]
     public object GetArticle(uint id)
     {

@@ -10,4 +10,5 @@ public class Article
     public ICollection<Notation> Notations { get; set; }
     public bool IsParrotSelection { get; set; }
     public double Price { get; set; }
+    public int ImageCount { get; set; }
 }
