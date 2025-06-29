@@ -59,6 +59,8 @@ public class SellersController : ControllerBase
     public object GetAccountSeller()
     {
         Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+        
         Seller? seller = _db.Sellers.Include(seller => seller.Account).FirstOrDefault(seller => seller.Account.Id == account.Id);
         if (seller == null) return NotFound("your account does not have a seller profile");
 
