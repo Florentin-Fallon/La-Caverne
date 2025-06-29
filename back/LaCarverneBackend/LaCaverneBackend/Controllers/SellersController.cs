@@ -55,7 +55,7 @@ public class SellersController : ControllerBase
         return new SellerDto(seller);
     }
 
-    [HttpGet("mine")]
+    [HttpGet("me")]
     public object GetAccountSeller()
     {
         Account? account = User.Account(_db);
@@ -63,6 +63,35 @@ public class SellersController : ControllerBase
         
         Seller? seller = _db.Sellers.Include(seller => seller.Account).FirstOrDefault(seller => seller.Account.Id == account.Id);
         if (seller == null) return NotFound("your account does not have a seller profile");
+
+        return new SellerDto(seller);
+    }
+
+    [HttpPut("me")]
+    public object ModifyAccountSeller([FromBody] SellerCreationDto dto)
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+        
+        Seller? seller = _db.Sellers.Include(seller => seller.Account).FirstOrDefault(seller => seller.Account.Id == account.Id);
+        if (seller == null) return NotFound("your account does not have a seller profile");
+
+        if (!string.IsNullOrWhiteSpace(dto.Name))
+        {
+            if (dto.Name.Length > 30)
+                return BadRequest("name must be less than 30 characters long");
+
+            seller.Name = dto.Name;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.Description))
+        {
+            if (dto.Description.Length > 500)
+                return BadRequest("description must be less than 500 characters long");
+            
+            seller.Description = dto.Description;
+        }
+
+        _db.SaveChanges();
 
         return new SellerDto(seller);
     }
