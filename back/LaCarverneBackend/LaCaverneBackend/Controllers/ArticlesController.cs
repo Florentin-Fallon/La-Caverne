@@ -20,13 +20,15 @@ public class ArticlesController : ControllerBase
     }
     
     [HttpGet]
-    public object Get(int page, int pageCount = 10)
+    public object Get(int page, int pageCount = 10, string? category = null)
     {
         return _db.Articles.Take(pageCount)
             .Include(art => art.Seller)
             .Include(art => art.Tags)
             .Include(art => art.Notations)
             .Include(art => art.Likes)
+            .Include(art => art.Category)
+            .Where(art => category == null || art.Category.Name.ToLower() == category.ToLower())
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -83,6 +85,7 @@ public class ArticlesController : ControllerBase
             .Include(art => art.Tags)
             .Include(art => art.Notations)
             .Include(art => art.Likes)
+            .Include(art => art.Category)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -149,6 +152,17 @@ public class ArticlesController : ControllerBase
             foreach (Tag tag in tags)
                 _db.TagArticles.Add(new TagArticle() { Article = article, Tag = tag });
         }
+        if (!string.IsNullOrEmpty(dto.Category))
+        {
+            Category? category = dto.Category == null 
+                ? null
+                : _db.Categories.FirstOrDefault(cat => cat.Name.ToLower() == dto.Category.ToLower());
+
+            if (category == null)
+                return BadRequest("category does not exist");
+
+            article.Category = category;
+        }
 
         _db.SaveChanges();
 
@@ -174,6 +188,10 @@ public class ArticlesController : ControllerBase
         if (dto.Price <= 0 || dto.Price > 1000000)
             return BadRequest("price must be superior than zero and less than a million");
 
+        Category? category = dto.Category == null 
+            ? null
+            : _db.Categories.FirstOrDefault(cat => cat.Name.ToLower() == dto.Category.ToLower());
+
         List<Tag> tags = [];
         foreach (string tag in dto.Tags)
         {
@@ -194,7 +212,8 @@ public class ArticlesController : ControllerBase
             Description = dto.Description,
             IsParrotSelection = false,
             Seller = seller,
-            Price = dto.Price
+            Price = dto.Price,
+            Category = category
         };
 
         _db.Articles.Add(article);
