@@ -10,6 +10,7 @@ import Informatique from "./pages/Informatique";
 import Bricolage from "./pages/Bricolage";
 import Produit from "./pages/Produit";
 import Profil from "./pages/Profil";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/bricolage" element={<Bricolage />} />
         <Route path="/produit/:id" element={<Produit />} />
         <Route path="/profil" element={<Profil />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
