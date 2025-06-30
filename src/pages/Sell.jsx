@@ -262,7 +262,7 @@ function Sell() {
 
           <button
             onClick={() => navigate("/")}
-            className="text-[#346644] hover:text-[#ffffff] transition-colors"
+            className="text-[#346644] hover:text-[#0B4612] transition-colors"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -282,14 +282,17 @@ function Sell() {
         </div>
 
         <div className="mb-10">
-          {" "}
           <Steps
             current={currentStep}
             className="px-4"
             labelPlacement="vertical"
+            style={{ color: "#346644" }}
           >
             {steps.map((item) => (
-              <Step key={item.title} title={item.title} />
+              <Step
+                key={item.title}
+                title={<span style={{ color: "#346644" }}>{item.title}</span>}
+              />
             ))}
           </Steps>
         </div>
@@ -305,22 +308,22 @@ function Sell() {
           </div>
           <div className="w-full max-w-2xl flex justify-between mt-8 pt-6 relative">
             {currentStep > 0 && (
-              <Button onClick={prevStep} size="large">
+              <Button onClick={prevStep} size="large" color="#346644">
                 Précédent
               </Button>
             )}
 
             {currentStep < steps.length - 1 ? (
-              <Button onClick={nextStep} size="large" className="ml-auto">
+              <Button onClick={nextStep} size="large" color="#346644" className="ml-auto">
                 Suivant
               </Button>
             ) : (
               <Button
-                type="primary" //
                 htmlType="submit"
                 size="large"
+                color="#346644"
                 loading={loading}
-                className="bg-[#346644] text-white hover:bg-[#2a5538] ml-auto"
+                className="ml-auto"
               >
                 Vendre l'article
               </Button>
