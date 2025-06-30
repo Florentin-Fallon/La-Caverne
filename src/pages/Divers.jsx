@@ -3,7 +3,7 @@ import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardProductFull from "../components/UI/CardProductFull";
 
-function Electromenager() {
+function Divers() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -16,13 +16,12 @@ function Electromenager() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Électroménager
-          const electromenagerProducts = data.filter(
+          // Filtrer les produits de la catégorie Divers
+          const diversProducts = data.filter(
             (product) =>
-              product.category &&
-              product.category.toLowerCase() === "électroménager"
+              product.category && product.category.toLowerCase() === "divers"
           );
-          setProducts(electromenagerProducts);
+          setProducts(diversProducts);
         } else {
           setError("Erreur lors du chargement des produits");
         }
@@ -76,18 +75,16 @@ function Electromenager() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Électroménager
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Divers</h1>
           <p className="text-lg text-gray-600">
-            Équipez votre maison avec nos appareils électroménagers
+            Découvrez notre sélection de produits variés
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.length === 0 ? (
             <div className="col-span-full text-center py-8">
               <p className="text-gray-600">
-                Aucun appareil électroménager disponible pour le moment.
+                Aucun produit divers disponible pour le moment.
               </p>
             </div>
           ) : (
@@ -113,4 +110,4 @@ function Electromenager() {
   );
 }
 
-export default Electromenager;
+export default Divers;

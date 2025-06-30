@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function CardProduct({ id, title, price, category, image }) {
+function CardProduct({ id, title, price, category, image, tags }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -15,7 +15,7 @@ function CardProduct({ id, title, price, category, image }) {
     >
       <div>
         <img
-          src={image || "https://picsum.photos/200"}
+          src={image}
           alt={title || "Produit"}
           className="w-50 h-50 rounded-sm"
         />
@@ -23,10 +23,21 @@ function CardProduct({ id, title, price, category, image }) {
       <div className="flex flex-col items-start justify-center gap-2 w-full">
         <h1 className="text-white text-left">{title || "Tour gaming"}</h1>
         <p className="text-white text-left font-bold">{price || "300€"}</p>
-        <div>
-          <p className="text-[#66C183] border-1 border-[#66C183] mt-2 rounded-lg px-2 py-1 text-xs">
-            {category || "Informatique"}
-          </p>
+        <div className="flex flex-wrap gap-1">
+          {tags && tags.length > 0 ? (
+            tags.slice(0, 2).map((tag, index) => (
+              <p
+                key={index}
+                className="text-[#66C183] border-1 border-[#66C183] mt-2 rounded-lg px-2 py-1 text-xs"
+              >
+                {tag}
+              </p>
+            ))
+          ) : (
+            <p className="text-[#66C183] border-1 border-[#66C183] mt-2 rounded-lg px-2 py-1 text-xs">
+              {category || "Informatique"}
+            </p>
+          )}
         </div>
       </div>
     </div>
