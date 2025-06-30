@@ -20,7 +20,7 @@ public class ArticlesController : ControllerBase
     }
     
     [HttpGet]
-    public object Get(int page, int pageCount = 10, string? category = null)
+    public object Get(int page, int pageCount = 10, int? categoryId = null)
     {
         return _db.Articles.Take(pageCount)
             .Include(art => art.Seller)
@@ -28,7 +28,7 @@ public class ArticlesController : ControllerBase
             .Include(art => art.Notations)
             .Include(art => art.Likes)
             .Include(art => art.Category)
-            .Where(art => category == null || art.Category.Name.ToLower() == category.ToLower())
+            .Where(art => categoryId == null || art.Category.Id == categoryId)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
