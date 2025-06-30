@@ -19,6 +19,8 @@ public class LaCaverneDbContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
         
-        optionsBuilder.UseMySQL("server=localhost;port=3306;database=caverne;user=root;password=password;");
+        IConfigurationRoot cfg = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        
+        optionsBuilder.UseMySQL(cfg["Db:ConnectionString"]);
     }
 }

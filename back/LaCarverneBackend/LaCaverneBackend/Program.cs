@@ -77,6 +77,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+if (!string.IsNullOrWhiteSpace(builder.Configuration["Base"]))
+    app.UsePathBase(builder.Configuration["Base"]);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
