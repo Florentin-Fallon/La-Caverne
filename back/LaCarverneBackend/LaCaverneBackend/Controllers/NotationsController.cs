@@ -62,7 +62,9 @@ public class NotationsController : ControllerBase
     [HttpGet("articles/{id:int}")]
     public object GetArticleNotations(uint id)
     {
-        return _db.Notations.Include(not => not.Article)
+        return _db.Notations
+            .Include(not => not.Article)
+            .Include(not => not.Account)
             .Where(not => not.Article != null && not.Article.Id == id)
             .Select(not => new NotationDto(not));
     }

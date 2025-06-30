@@ -14,5 +14,5 @@ public class ArticleDto(Article article, TagArticle[]? tags = null)
     public int ImageCount { get; set; } = article.ImageCount;
     public int Likes => article.Likes?.Count ?? 0;
     public int Notation => article.Notations == null || article.Notations.Count == 0 ? 0 : article.Notations.Sum(art => art.Stars) / article.Notations.Count;
-    public string? Category => article.Category?.Name;
+    public string Category => article.Category?.Name ?? "Divers";
 }
