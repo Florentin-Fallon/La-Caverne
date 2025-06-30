@@ -15,7 +15,38 @@ function Produit() {
     produit?.images ? produit.images[0] : produit?.image
   );
 
-  const note = 2;
+  // Tableau des avis clients avec leurs notes
+  const avisClients = [
+    {
+      name: "Jean",
+      description:
+        "Ce PC est tellement bien c'est un truc de fou il fait tout tourner ! Bon par contre il chauffe tellement qu'il a fait monter la température à Mérignac de 2°C !!!",
+      logo: "https://picsum.photos/200",
+      rating: 4,
+    },
+    {
+      name: "Florentin",
+      description: "TROP BIEN !!!",
+      logo: "https://picsum.photos/200",
+      rating: 4,
+    },
+    {
+      name: "Grégorie",
+      description: "Trop mauvais",
+      logo: "https://picsum.photos/200",
+      rating: 2,
+    },
+  ];
+
+  // Calcul de la note moyenne
+  const noteMoyenne =
+    avisClients.length > 0
+      ? Math.round(
+          (avisClients.reduce((sum, avis) => sum + avis.rating, 0) /
+            avisClients.length) *
+            10
+        ) / 10
+      : 0;
 
   const renderStars = (note) => {
     const stars = [];
@@ -160,11 +191,13 @@ function Produit() {
 
               <div
                 className="flex items-center mb-3"
-                aria-label={`Note : ${note} sur 5`}
+                aria-label={`Note : ${noteMoyenne} sur 5`}
               >
-                <div className="flex items-center">{renderStars(note)}</div>
+                <div className="flex items-center">
+                  {renderStars(noteMoyenne)}
+                </div>
                 <span className="text-white opacity-50 ml-3 text-lg font-extralight">
-                  {note} / 5 étoile(s)
+                  {noteMoyenne} / 5 étoile(s)
                 </span>
               </div>
               <p className="text-white text-lg">Vendu par {produit.seller}</p>
@@ -194,11 +227,16 @@ function Produit() {
               Envoyer
             </button>
           </div>
-          <div className="flex flex-row flex-wrap gap-10 ">
-            <CardRating />
-            <CardRating />
-            <CardRating />
-            <CardRating />
+          <div className="flex flex-row flex-wrap gap-4">
+            {avisClients.map((avis, index) => (
+              <CardRating
+                key={index}
+                name={avis.name}
+                description={avis.description}
+                logo={avis.logo}
+                rating={avis.rating}
+              />
+            ))}
           </div>
         </div>
       </main>
