@@ -59,6 +59,9 @@ public class ArticlesController : ControllerBase
         if (image.ContentType != "image/jpeg" && image.ContentType != "image/png")
             return BadRequest("image must be JPEG (.jpg) or PNG (.png)");
 
+        if (article.ImageCount >= 5)
+            return BadRequest("you can't upload more than 5 images");
+
         int imageId = article.ImageCount;
         article.ImageCount++;
         _db.SaveChanges();

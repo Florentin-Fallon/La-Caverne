@@ -12,4 +12,5 @@ public class Article
     public double Price { get; set; }
     public int ImageCount { get; set; }
     public ICollection<Like> Likes { get; set; }
+    public Category? Category { get; set; }
 }
