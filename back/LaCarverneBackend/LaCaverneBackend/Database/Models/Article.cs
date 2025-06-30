@@ -11,4 +11,6 @@ public class Article
     public bool IsParrotSelection { get; set; }
     public double Price { get; set; }
     public int ImageCount { get; set; }
+    public ICollection<Like> Likes { get; set; }
+    public Category? Category { get; set; }
 }

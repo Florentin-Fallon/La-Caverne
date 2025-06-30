@@ -2,6 +2,7 @@
 using LaCaverneBackend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaCaverneBackend.Migrations
 {
     [DbContext(typeof(LaCaverneDbContext))]
-    partial class LaCaverneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250630073921_UserAdmins")]
+    partial class UserAdmins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,6 @@ namespace LaCaverneBackend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int unsigned");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -75,47 +75,9 @@ namespace LaCaverneBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("SellerId");
 
                     b.ToTable("Articles");
-                });
-
-            modelBuilder.Entity("LaCaverneBackend.Database.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("LaCaverneBackend.Database.Models.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<uint>("AccountId")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<uint>("ArticleId")
-                        .HasColumnType("int unsigned");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("ArticleId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("LaCaverneBackend.Database.Models.Notation", b =>
@@ -253,38 +215,13 @@ namespace LaCaverneBackend.Migrations
 
             modelBuilder.Entity("LaCaverneBackend.Database.Models.Article", b =>
                 {
-                    b.HasOne("LaCaverneBackend.Database.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("LaCaverneBackend.Database.Models.Seller", "Seller")
                         .WithMany()
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
                     b.Navigation("Seller");
-                });
-
-            modelBuilder.Entity("LaCaverneBackend.Database.Models.Like", b =>
-                {
-                    b.HasOne("LaCaverneBackend.Database.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LaCaverneBackend.Database.Models.Article", "Article")
-                        .WithMany("Likes")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Article");
                 });
 
             modelBuilder.Entity("LaCaverneBackend.Database.Models.Notation", b =>
@@ -377,8 +314,6 @@ namespace LaCaverneBackend.Migrations
 
             modelBuilder.Entity("LaCaverneBackend.Database.Models.Article", b =>
                 {
-                    b.Navigation("Likes");
-
                     b.Navigation("Notations");
 
                     b.Navigation("Tags");

@@ -7,6 +7,18 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Win32.SafeHandles;
 
+if (args.Contains("--migrate"))
+{
+    using LaCaverneDbContext db = new();
+    
+    Console.WriteLine($"Applying migrations {string.Join(", ", db.Database.GetPendingMigrations())}");
+    
+    db.Database.Migrate();
+    
+    Console.WriteLine("Migration Successful !");
+    return;
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -76,6 +88,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+if (!string.IsNullOrWhiteSpace(builder.Configuration["Base"]))
+    app.UsePathBase(builder.Configuration["Base"]);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

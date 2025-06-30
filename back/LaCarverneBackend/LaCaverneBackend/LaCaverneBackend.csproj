@@ -20,4 +20,12 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Output\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Output\appsettings.json" />
+      <_ContentIncludedByDefault Remove="Output\LaCaverneBackend.deps.json" />
+      <_ContentIncludedByDefault Remove="Output\LaCaverneBackend.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="Output\LaCaverneBackend.staticwebassets.endpoints.json" />
+    </ItemGroup>
+
 </Project>
