@@ -13,6 +13,7 @@ public class Account
     public string Username { get; set; }
     public string Password { get; set; }
     public TagAccount[] PreferredTags { get; set; }
+    public bool IsAdmin { get; set; }
     
     public void SetPassword(string password)
     {

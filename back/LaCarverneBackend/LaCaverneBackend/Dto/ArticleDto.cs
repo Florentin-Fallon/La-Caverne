@@ -12,4 +12,7 @@ public class ArticleDto(Article article, TagArticle[]? tags = null)
     public string[] Tags { get; set; } = article.Tags == null ? tags.Select(tag => tag.Tag.Name).ToArray() : article.Tags.Select(tag => tag.Tag.Name).ToArray();
     public bool Parrot { get; set; } = article.IsParrotSelection;
     public int ImageCount { get; set; } = article.ImageCount;
+    public int Likes => article.Likes?.Count ?? 0;
+    public int Notation => article.Notations == null || article.Notations.Count == 0 ? 0 : article.Notations.Sum(art => art.Stars) / article.Notations.Count;
+    public string? Category => article.Category?.Name;
 }

@@ -14,11 +14,15 @@ public class LaCaverneDbContext : DbContext
     public DbSet<TagAccount> TagAccounts { get; set; }
     public DbSet<TagArticle> TagArticles { get; set; }
     public DbSet<UserToken> Tokens { get; set; }
+    public DbSet<Like> Likes { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         
-        optionsBuilder.UseMySQL("server=localhost;port=3306;database=caverne;user=root;password=password;");
+        IConfigurationRoot cfg = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        
+        optionsBuilder.UseMySQL(cfg["Db:ConnectionString"]);
     }
 }
