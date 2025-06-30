@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Upload,
@@ -10,7 +10,7 @@ import {
   Steps,
   Card,
 } from "antd";
-import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -23,18 +23,19 @@ function Sell() {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
+  // Nettoyage des URLs créées
+  useEffect(() => {
+    return () => {
+      fileList.forEach(file => {
+        if (file.url) URL.revokeObjectURL(file.url);
+      });
+    };
+  }, [fileList]);
+
   const handleUpload = async (options) => {
-    const { file } = options;
+    const { onSuccess } = options;
     setTimeout(() => {
-      setFileList((prev) => [
-        ...prev,
-        {
-          uid: file.uid,
-          name: file.name,
-          status: "done",
-          url: URL.createObjectURL(file),
-        },
-      ]);
+      onSuccess("OK");   
     }, 500);
   };
 
@@ -57,7 +58,16 @@ function Sell() {
       console.log("Images:", fileList);
       await new Promise((resolve) => setTimeout(resolve, 1500));
       message.success("Votre annonce a été publiée avec succès!");
-      navigate("/");
+      
+      // Redirection vers la page de profil avec les données du nouvel article
+      navigate("/profil", { 
+        state: { 
+          newArticle: {
+            ...values,
+            images: fileList
+          } 
+        } 
+      });
     } catch (error) {
       message.error("Erreur lors de la publication");
       console.error(error);
@@ -80,10 +90,10 @@ function Sell() {
       content: (
         <div className="flex justify-center items-center min-h-[50vh] w-full">
           <div className="w-full max-w-md p-6 border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">
+            <h2 className="text-xl font-semibold mb-4 text-green-800 text-center">
               Ajoutez vos photos
             </h2>
-            <p className="text-gray-600 mb-6 text-center">
+            <p className="text-gray-400 mb-6 text-center">
               La première photo sera la photo principale. Vous pouvez ajouter
               jusqu'à 5 photos.
             </p>
@@ -94,16 +104,16 @@ function Sell() {
               onChange={({ fileList }) => setFileList(fileList)}
               multiple
               maxCount={5}
-              className="border-2 border-dashed border-[#346644] rounded-lg bg-[#f8faf7] hover:bg-[#e8f3e5] transition-colors"
+              className="border-2 border-dashed border-[#346644] rounded-lg bg-[#CFF3CF] hover:bg-[#A6CB9C] transition-colors"
             >
               <p className="ant-upload-drag-icon text-[#346644]">
-                <InboxOutlined className="text-3xl" />
+                <InboxOutlined className="text-3xl text-green-800" />
               </p>
-              <p className="ant-upload-text font-medium text-gray-700">
+              <p className="ant-upload-text font-medium text-green-900">
                 Cliquez ou glissez-déposez vos photos
               </p>
-              <p className="ant-upload-hint text-gray-500">
-                Formats supportés: JPG, PNG (max 5MB par image)
+              <p className="ant-upload-hint text-gray-400">
+                Formats supportés: JPG, PNG, JPEG (max 5MB par image)
               </p>
             </Upload.Dragger>
             {fileList.length > 0 && (
@@ -232,7 +242,8 @@ function Sell() {
               Conseil de sécurité
             </h3>
             <p className="text-gray-600 text-sm">
-              Pour votre sécurité, ne communiquez pas d'informations personnelles sensibles.
+              Pour votre sécurité, ne communiquez pas d'informations
+              personnelles sensibles.
             </p>
           </div>
         </div>
@@ -248,7 +259,7 @@ function Sell() {
           <h1 className="text-2xl font-bold text-gray-800">
             Vendre un article sur La Caverne
           </h1>
-          
+
           <button
             onClick={() => navigate("/")}
             className="text-[#346644] hover:text-[#ffffff] transition-colors"
@@ -305,13 +316,13 @@ function Sell() {
               </Button>
             ) : (
               <Button
-                type="primary"
+                type="primary" //
                 htmlType="submit"
                 size="large"
                 loading={loading}
                 className="bg-[#346644] text-white hover:bg-[#2a5538] ml-auto"
               >
-                Publier l'annonce
+                Vendre l'article
               </Button>
             )}
           </div>
