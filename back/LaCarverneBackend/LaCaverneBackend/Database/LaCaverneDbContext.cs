@@ -14,6 +14,7 @@ public class LaCaverneDbContext : DbContext
     public DbSet<TagAccount> TagAccounts { get; set; }
     public DbSet<TagArticle> TagArticles { get; set; }
     public DbSet<UserToken> Tokens { get; set; }
+    public DbSet<Like> Likes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

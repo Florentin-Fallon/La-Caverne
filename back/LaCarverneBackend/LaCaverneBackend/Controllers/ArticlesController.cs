@@ -25,6 +25,8 @@ public class ArticlesController : ControllerBase
         return _db.Articles.Take(pageCount)
             .Include(art => art.Seller)
             .Include(art => art.Tags)
+            .Include(art => art.Notations)
+            .Include(art => art.Likes)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -42,8 +44,8 @@ public class ArticlesController : ControllerBase
         
         if (System.IO.File.Exists($"{path}/{imageId}.png"))
             return File(new FileStream($"{path}/{imageId}.png", FileMode.Open), "image/png");
-        if (System.IO.File.Exists($"{path}/{imageId}.jpg"))
-            return File(new FileStream($"{path}/{imageId}.jpg", FileMode.Open), "image/jpeg");
+        if (System.IO.File.Exists($"{path}/{imageId}.jpeg"))
+            return File(new FileStream($"{path}/{imageId}.jpeg", FileMode.Open), "image/jpeg");
         
         return NotFound();
     }
@@ -76,6 +78,8 @@ public class ArticlesController : ControllerBase
         ArticleDto? article = _db.Articles.Where(art => art.Id == id)
             .Include(art => art.Seller)
             .Include(art => art.Tags)
+            .Include(art => art.Notations)
+            .Include(art => art.Likes)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -198,5 +202,42 @@ public class ArticlesController : ControllerBase
         _db.SaveChanges();
 
         return Created($"/articles/{article.Id}", new ArticleDto(article));
+    }
+
+    [HttpPost("{id:int}/like")]
+    [Authorize]
+    public object LikeArticle(uint id)
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Article? article = _db.Articles.Find(id);
+        if (article == null) return NotFound();
+
+        Like? existingLike = _db.Likes.Include(like => like.Article)
+            .Include(like => like.Account)
+            .FirstOrDefault(like => like.Account.Id == account.Id && like.Article.Id == article.Id);
+
+        if (existingLike != null)
+        {
+            _db.Likes.Remove(existingLike);
+        }
+        else
+        {
+            Like like = new Like
+            {
+                Account = account,
+                Article = article
+            };
+            _db.Likes.Add(like);
+        }
+
+        _db.SaveChanges();
+        
+        return new ArticleDto(_db.Articles.Include(art => art.Seller).Include(art => art.Tags).Include(art => art.Notations).Include(art => art.Likes).FirstOrDefault(art => art.Id == id), _db.TagArticles
+            .Include(tag => tag.Article)
+            .Include(tag => tag.Tag)
+            .Where(tag => tag.Article.Id == article.Id)
+            .ToArray());
     }
 }
