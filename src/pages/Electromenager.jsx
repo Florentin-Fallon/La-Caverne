@@ -16,7 +16,6 @@ function Electromenager() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Électroménager
           const electromenagerProducts = data.filter(
             (product) =>
               product.category &&

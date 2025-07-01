@@ -16,7 +16,6 @@ function Vehicules() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Véhicules
           const vehiculesProducts = data.filter(
             (product) =>
               product.category && product.category.toLowerCase() === "véhicules"

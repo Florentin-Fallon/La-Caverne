@@ -16,7 +16,7 @@ function Informatique() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Informatique
+
           const informatiqueProducts = data.filter(
             (product) =>
               product.category &&

@@ -169,7 +169,7 @@ function Produit() {
         }
       } else if (response.status === 401) {
         console.log("Erreur 401 - Token invalide ou expiré");
-        localStorage.removeItem("token"); // Supprimer le token invalide
+        localStorage.removeItem("token");
         showNotification(
           "Session expirée. Veuillez vous reconnecter.",
           "error"

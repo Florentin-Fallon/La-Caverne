@@ -16,7 +16,7 @@ function Immobilier() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Immobilier
+
           const immobilierProducts = data.filter(
             (product) =>
               product.category &&

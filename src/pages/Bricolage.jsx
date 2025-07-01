@@ -16,7 +16,6 @@ function Bricolage() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Bricolage
           const bricolageProducts = data.filter(
             (product) =>
               product.category && product.category.toLowerCase() === "bricolage"
