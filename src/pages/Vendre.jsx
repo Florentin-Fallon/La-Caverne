@@ -17,7 +17,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 const { Step } = Steps;
 
-function Sell() {
+function Vendre() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [fileList, setFileList] = useState([]);
@@ -94,7 +94,7 @@ function Sell() {
       try {
         console.log("Vérification du profil vendeur...");
         const sellerProfile = await sellerService.getMySellerProfile();
-        console.log("Profil vendeur trouvé:", sellerProfile.data);
+        console.log("ProfilVendeur vendeur trouvé:", sellerProfile.data);
       } catch (sellerError) {
         console.error("Erreur profil vendeur:", sellerError);
         console.error("Status:", sellerError.response?.status);
@@ -507,4 +507,4 @@ function Sell() {
   );
 }
 
-export default Sell;
+export default Vendre;

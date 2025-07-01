@@ -1,101 +1,82 @@
-import React, { useState, useEffect } from "react";
-import {Link, useLocation} from "react-router-dom";
-import { Card, Image, Tag, message } from "antd";
+import React, {useEffect, useState} from "react";
 import Header from "../components/layout-components/Header.jsx";
+import Footer from "../components/layout-components/Footer.jsx";
 
 function Profil() {
-  const location = useLocation();
-  const [newArticle, setNewArticle] = useState(null);
-  const [articles, setArticles] = useState([]); // Liste existante des articles
+    const [userData, setUserData] = useState({
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: '',
+        adresse: '',
+        codePostal: '',
+        ville: ''
+    });
 
-  useEffect(() => {
-    // Récupérer l'article transmis lors de la navigation
-    if (location.state?.newArticle) {
-      setNewArticle(location.state.newArticle);
-      
-      // Ajouter le nouvel article à la liste existante
-      setArticles(prev => [location.state.newArticle, ...prev]);
-      
-      // Message de confirmation
-      message.success("Votre nouvel article a été ajouté !");
-      
-      // Nettoyer l'état de navigation pour éviter de réafficher le message
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
+    useEffect(() => {
+        const fakeApiData = {
+            nom: 'Dupont',
+            prenom: 'Jean',
+            email: 'jean.dupont@email.com',
+            telephone: '0601020304',
+            adresse: '123 Rue Exemple',
+            codePostal: '75001',
+            ville: 'Paris'
+        };
+        setUserData(fakeApiData);
+    }, []);
 
-  return (
-      <div className="bg-[#0F2E19] min-h-screen">
-        <div className='pt-5'>
-          <Header />
-        </div>
-        <div className="container mx-auto px-5 py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-white mb-2">Profil de vos vente</h1>
-              <p className="text-gray-300">
-                Retrouvez tous vos biens en vente et gérez vos annonces
-              </p>
-              <div className='flex items-center justify-center mt-10'>
-                <div className='flex flex-col items-center justify-center'>
-                  <div className='bg-white rounded-lg shadow-lg flex flex-col items-center justify-center'>
-                    {/* Section spéciale pour le nouvel article si disponible */}
-                    {newArticle && (
-                      <div className="new-article-section">
-                        <h3>Votre nouvel article :</h3>
-                        <Card
-                          title={newArticle.title}
-                          style={{ width: '100%', marginBottom: 20 }}
-                          cover={
-                            newArticle.images?.length > 0 && (
-                              <Image.PreviewGroup>
-                                <Image src={newArticle.images[0].url} />
-                              </Image.PreviewGroup>
-                            )
-                          }
-                        >
-                          <p>{newArticle.description}</p>
-                          <Tag color="green">{newArticle.price} €</Tag>
-                          <Tag>{newArticle.category}</Tag>
-                          <p>Localisation : {newArticle.city} ({newArticle.postalCode})</p>
-                        </Card>
-                      </div>
-                    )}
-
-                    {/* Liste de tous les articles */}
-                    <div className="all-articles">
-                      <h3>Mes articles en vente</h3>
-                      {articles.map((article, index) => (
-                        <Card
-                          key={index}
-                          title={article.title}
-                          style={{ width: '100%', marginBottom: 20 }}
-                          cover={
-                            article.images?.length > 0 && (
-                              <Image.PreviewGroup>
-                                <Image src={article.images[0].url} />
-                              </Image.PreviewGroup>
-                            )
-                          }
-                        >
-                          {/* ... même structure que pour newArticle ... */}
-                        </Card>
-                      ))}
-                    </div>
-
-                    <button className="bg-[#346644] text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-[#0F2E19] transition-colors duration-200">
-                      <Link to="/sell" className="flex items-center gap-2">
-                        Ventre un article
-                      </Link>
-                    </button>
-                  </div>
-                </div>
-              </div>
+    const fields = [
+        { key: 'nom', label: 'Nom', type: 'text' },
+        { key: 'prenom', label: 'Prénom', type: 'text' },
+        { key: 'email', label: 'Adresse email', type: 'email' },
+        { key: 'telephone', label: 'Numéro de téléphone', type: 'tel' },
+        { key: 'adresse', label: 'Adresse', type: 'text' },
+        { key: 'codePostal', label: 'Code Postal', type: 'text' },
+        { key: 'ville', label: 'Ville', type: 'text' }
+    ];
+    return (
+        <div className='bg-[#0F2E19] h-[100vh]'>
+            <div className='pt-5'>
+                <Header />
             </div>
-          </div>
+            <div className='flex items-center justify-center mt-10'>
+                <div className='flex flex-col items-center justify-center'>
+                    <div className='w-[1250px] bg-white rounded-lg shadow-lg flex flex-col items-center justify-center'>
+                        <div>
+                            <h1 className='text-4xl font-medium text-center mt-5'>Mon Profil</h1>
+                        </div>
+                        <div className='flex flex-col items-start justify-left w-full mt-10 px-10'>
+                            <p className='text-2xl text-center mt-5'>Mes informations</p>
+                            <div className='bg-[#0F2E19] ml-7 mt-1 w-[130px] h-[2px]'>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center w-full mt-10 space-y-6">
+                            <div className="grid grid-cols-2 grid-rows-3 gap-7 w-[950px] mt-6">
+                                {fields.map((input, index) => (
+                                    <div key={index} className="flex flex-col space-y-1">
+                                        <label className="text-sm text-gray-400">{input.label}</label>
+                                        <input
+                                            type={input.type}
+                                            value={userData[input.key]}
+                                            onChange={(e) =>
+                                                setUserData({ ...userData, [input.key]: e.target.value })
+                                            }
+                                            className="border-[#0F2E19] border-2 rounded-md pl-4 p-2"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="my-8 bg-[#0F2E19] cursor-pointer text-white px-6 py-3 rounded-md" onClick={() => alert("Informations modifiées !")}>
+                                Modifier mes informations
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Footer />
         </div>
-    </div>
-  );
+    );
 }
 
-export default Profil//Changer de couleur;
+export default Profil;

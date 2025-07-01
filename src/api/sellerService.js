@@ -23,7 +23,7 @@ api.interceptors.request.use(
 );
 
 export const sellerService = {
-  // Profil vendeur
+  // ProfilVendeur vendeur
   createSellerProfile: (data) => api.post("/sellers/create", data),
   getMySellerProfile: () => api.get("/sellers/me"),
   updateSellerProfile: (data) => api.put("/sellers/me", data),
