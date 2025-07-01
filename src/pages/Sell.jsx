@@ -11,6 +11,7 @@ import {
   Card,
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { sellerService } from "../api/sellerService";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -22,11 +23,19 @@ function Sell() {
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    category: "",
+    city: "",
+    postalCode: "",
+  });
 
   // Nettoyage des URLs créées
   useEffect(() => {
     return () => {
-      fileList.forEach(file => {
+      fileList.forEach((file) => {
         if (file.url) URL.revokeObjectURL(file.url);
       });
     };
@@ -35,7 +44,7 @@ function Sell() {
   const handleUpload = async (options) => {
     const { onSuccess } = options;
     setTimeout(() => {
-      onSuccess("OK");   
+      onSuccess("OK");
     }, 500);
   };
 
@@ -52,36 +61,158 @@ function Sell() {
   };
 
   const onFinish = async (values) => {
+    console.log("Fonction onFinish appelée avec les valeurs:", values);
+
+    // Récupérer les valeurs de la dernière étape et les combiner avec les données sauvegardées
+    const lastStepValues = form.getFieldsValue();
+    const allValues = { ...formData, ...lastStepValues };
+    console.log("Toutes les valeurs du formulaire:", allValues);
+
+    // Validation manuelle du formulaire
+    try {
+      await form.validateFields();
+      console.log("Formulaire validé avec succès");
+    } catch (validationError) {
+      console.error("Erreurs de validation:", validationError);
+      message.error("Veuillez corriger les erreurs dans le formulaire");
+      return;
+    }
+
     setLoading(true);
     try {
-      console.log("Données du formulaire:", values);
-      console.log("Images:", fileList);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Vérifiez que l'utilisateur est connecté et a un profil vendeur
+      const token = localStorage.getItem("token");
+      if (!token) {
+        message.error("Vous devez être connecté pour vendre un article");
+        return;
+      }
+
+      // Vérification des champs requis
+      if (
+        !allValues.title ||
+        !allValues.description ||
+        !allValues.price ||
+        !allValues.category
+      ) {
+        message.error("Veuillez remplir tous les champs obligatoires");
+        return;
+      }
+
+      // Récupérer l'ID de la catégorie
+      const categoriesResponse = await sellerService.getCategories();
+      const categories = categoriesResponse.data;
+      const selectedCategory = categories.find(
+        (cat) => cat.name.toLowerCase() === allValues.category.toLowerCase()
+      );
+
+      if (!selectedCategory) {
+        message.error("Catégorie non trouvée");
+        return;
+      }
+
+      // 1. Création de l'article
+      const articleData = {
+        title: allValues.title,
+        description: allValues.description,
+        price: parseFloat(allValues.price),
+        tags: [
+          allValues.category,
+          allValues.title ? allValues.title.split(" ")[0] : allValues.category,
+        ], // Ajoute la catégorie et le premier mot du titre (ou la catégorie si pas de titre)
+        categoryId: selectedCategory.id,
+      };
+
+      console.log("Données de l'article à envoyer:", articleData);
+
+      const articleResponse = await sellerService.createArticle(articleData);
+      console.log("Réponse de création d'article:", articleResponse);
+
+      const articleId = articleResponse.data.id;
+      console.log("ID de l'article créé:", articleId);
+
+      // 2. Upload des images
+      console.log("Nombre d'images à uploader:", fileList.length);
+      for (const file of fileList) {
+        if (file.originFileObj) {
+          console.log("Upload de l'image:", file.name);
+          await sellerService.uploadArticleImage(articleId, file.originFileObj);
+          console.log("Image uploadée avec succès:", file.name);
+        }
+      }
+
       message.success("Votre annonce a été publiée avec succès!");
-      
-      // Redirection vers la page de profil avec les données du nouvel article
-      navigate("/profil", { 
-        state: { 
-          newArticle: {
-            ...values,
-            images: fileList
-          } 
-        } 
-      });
+      console.log("Redirection vers l'article:", articleId);
+      navigate(`/produit/${articleId}`); // Redirige vers la page du produit
     } catch (error) {
-      message.error("Erreur lors de la publication");
-      console.error(error);
+      console.error("Erreur lors de la publication:", error);
+      console.error("Détails de l'erreur:", {
+        message: error.message,
+        response: error.response,
+        request: error.request,
+        config: error.config,
+      });
+
+      if (error.response) {
+        // Erreur venant du backend
+        console.error("Erreur backend:", error.response.data);
+        message.error(error.response.data.message || "Erreur serveur");
+      } else if (error.request) {
+        // La requête a été faite mais aucune réponse n'a été reçue
+        console.error("Pas de réponse du serveur");
+        message.error("Pas de réponse du serveur");
+      } else {
+        // Erreur lors de la configuration de la requête
+        console.error("Erreur de configuration:", error.message);
+        message.error("Erreur de configuration de la requête");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const nextStep = () => {
-    setCurrentStep(currentStep + 1);
+  const nextStep = async () => {
+    try {
+      // Valider les champs de l'étape actuelle
+      const currentStepFields = getStepFields(currentStep);
+      await form.validateFields(currentStepFields);
+
+      // Sauvegarder les valeurs de l'étape actuelle
+      const currentValues = form.getFieldsValue(currentStepFields);
+      setFormData((prev) => ({ ...prev, ...currentValues }));
+
+      setCurrentStep(currentStep + 1);
+    } catch (error) {
+      console.error("Erreur de validation:", error);
+    }
   };
 
   const prevStep = () => {
-    setCurrentStep(currentStep - 1);
+    const newStep = currentStep - 1;
+    setCurrentStep(newStep);
+    // Initialiser les champs de l'étape précédente avec les valeurs sauvegardées
+    setTimeout(() => {
+      const prevStepFields = getStepFields(newStep);
+      const prevStepValues = {};
+      prevStepFields.forEach((field) => {
+        if (formData[field]) {
+          prevStepValues[field] = formData[field];
+        }
+      });
+      form.setFieldsValue(prevStepValues);
+    }, 100);
+  };
+
+  const getStepFields = (step) => {
+    switch (step) {
+      case 0: // Photos - pas de champs à valider
+        return [];
+      case 1: // Détails
+        return ["title", "description", "category", "price"];
+      case 2: // Localisation
+        return ["city", "postalCode"];
+      default:
+        return [];
+    }
   };
 
   const steps = [
@@ -107,9 +238,9 @@ function Sell() {
               className="border-2 border-dashed border-[#346644] rounded-lg bg-[#CFF3CF] hover:bg-[#A6CB9C] transition-colors"
             >
               <p className="ant-upload-drag-icon text-[#346644]">
-                <InboxOutlined className="text-3xl text-green-800" />
+                <InboxOutlined className="text-3xl" />
               </p>
-              <p className="ant-upload-text font-medium text-green-900">
+              <p className="ant-upload-text font-medium">
                 Cliquez ou glissez-déposez vos photos
               </p>
               <p className="ant-upload-hint text-gray-400">
@@ -314,16 +445,26 @@ function Sell() {
             )}
 
             {currentStep < steps.length - 1 ? (
-              <Button onClick={nextStep} size="large" color="#346644" className="ml-auto">
+              <Button onClick={nextStep} size="large" className="ml-auto">
                 Suivant
               </Button>
             ) : (
               <Button
                 htmlType="submit"
                 size="large"
-                color="#346644"
                 loading={loading}
                 className="ml-auto"
+                onClick={() => {
+                  console.log("Bouton Vendre l'article cliqué");
+                  console.log(
+                    "Étapes complétées:",
+                    currentStep === steps.length - 1
+                  );
+                  console.log(
+                    "Formulaire valide:",
+                    form.getFieldsError().length === 0
+                  );
+                }}
               >
                 Vendre l'article
               </Button>

@@ -16,7 +16,6 @@ function Electromenager() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Électroménager
           const electromenagerProducts = data.filter(
             (product) =>
               product.category &&
@@ -100,7 +99,7 @@ function Electromenager() {
                 price={formatPrice(product.price)}
                 image={
                   product.imageCount > 0
-                    ? `/api/lacaverne/articles/${product.id}/images/1`
+                    ? `/api/lacaverne/articles/${product.id}/images/0`
                     : "https://picsum.photos/400/300"
                 }
               />

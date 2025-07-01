@@ -25,6 +25,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "cors",
+        policy  =>
+        {
+            policy.WithOrigins("https://services.cacahuete.dev", "http://localhost:5173", "https://localhost:5173");
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+        });
+});
+
 builder.Services.AddSwaggerGen(options =>
 {
     // Ajout du schéma de sécurité JWT
@@ -100,6 +112,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("cors");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
