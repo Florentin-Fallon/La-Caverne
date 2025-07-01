@@ -14,7 +14,7 @@ public class AccountLoginResponseDto
 
     public AccountLoginResponseDto(Account account, string token)
     {
-        Account = new AccountDto(account);
+        Account = new AccountDto(account, false);
         Token = token;
     }
 }
