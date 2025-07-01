@@ -161,11 +161,11 @@ public class ArticlesController : ControllerBase
             foreach (Tag tag in tags)
                 _db.TagArticles.Add(new TagArticle() { Article = article, Tag = tag });
         }
-        if (!string.IsNullOrEmpty(dto.Category))
+        if (dto.CategoryId != null)
         {
-            Category? category = dto.Category == null 
+            Category? category = dto.CategoryId == null 
                 ? null
-                : _db.Categories.FirstOrDefault(cat => cat.Name.ToLower() == dto.Category.ToLower());
+                : _db.Categories.Find(dto.CategoryId);
 
             if (category == null)
                 return BadRequest("category does not exist");
@@ -197,9 +197,9 @@ public class ArticlesController : ControllerBase
         if (dto.Price <= 0 || dto.Price > 1000000)
             return BadRequest("price must be superior than zero and less than a million");
 
-        Category? category = dto.Category == null 
+        Category? category = dto.CategoryId == null
             ? null
-            : _db.Categories.FirstOrDefault(cat => cat.Name.ToLower() == dto.Category.ToLower());
+            : _db.Categories.Find(dto.CategoryId);
 
         List<Tag> tags = [];
         foreach (string tag in dto.Tags)
