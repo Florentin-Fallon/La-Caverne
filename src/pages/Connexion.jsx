@@ -38,7 +38,6 @@ function Connexion() {
       ...prev,
       [name]: value,
     }));
-    // Effacer les messages d'erreur quand l'utilisateur tape
     if (error) setError("");
   };
 
@@ -48,7 +47,6 @@ function Connexion() {
       return false;
     }
 
-    // Validation basique de l'email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError("Veuillez entrer une adresse email valide");
@@ -83,21 +81,17 @@ function Connexion() {
       if (response.ok) {
         const data = await response.json();
         showNotification("Connexion réussie ! Redirection...", "success");
-        // Stocker le token dans localStorage
         if (data.token) {
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.account));
         }
-        // Rediriger vers la page d'accueil
         setTimeout(() => {
           navigate("/");
         }, 2000);
       } else {
-        // Essayer de lire le message d'erreur
         let errorMessage = "Erreur lors de la connexion";
         try {
           const errorData = await response.text();
-          // Essayer de parser comme JSON, sinon utiliser le texte brut
           try {
             const parsedError = JSON.parse(errorData);
             errorMessage =
@@ -106,9 +100,8 @@ function Connexion() {
             errorMessage = errorData || errorMessage;
           }
         } catch {
-          // Si on ne peut pas lire la réponse, utiliser le message par défaut
+          setError(errorMessage);
         }
-        setError(errorMessage);
       }
     } catch (err) {
       console.error("Erreur de connexion:", err);
@@ -178,7 +171,6 @@ function Connexion() {
                 </button>
               </div>
 
-              {/* Messages d'erreur et de succès */}
               {error && (
                 <div className="text-red-500 text-sm text-center mt-2">
                   {error}

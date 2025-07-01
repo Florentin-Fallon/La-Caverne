@@ -16,7 +16,6 @@ function Divers() {
 
         if (response.ok) {
           const data = await response.json();
-          // Filtrer les produits de la catégorie Divers
           const diversProducts = data.filter(
             (product) =>
               product.category && product.category.toLowerCase() === "divers"

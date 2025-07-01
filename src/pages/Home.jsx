@@ -20,17 +20,16 @@ function Home() {
 
   const selectedProducts = products.slice(0, 10);
 
-  // Auto-scroll automatique
   useEffect(() => {
     if (selectedProducts.length > 4) {
       const interval = setInterval(() => {
         if (!isScrolling) {
           setScrollPosition((prev) => {
-            const maxScroll = (selectedProducts.length - 4) * 280; // Largeur approximative d'une carte + gap
+            const maxScroll = (selectedProducts.length - 4) * 280;
             return prev >= maxScroll ? 0 : prev + 280;
           });
         }
-      }, 4000); // Défilement toutes les 4 secondes
+      }, 4000);
 
       return () => clearInterval(interval);
     }
