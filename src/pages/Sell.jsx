@@ -11,6 +11,7 @@ import {
   Card,
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { sellerService } from "../../api/sellerService"
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -26,7 +27,7 @@ function Sell() {
   // Nettoyage des URLs créées
   useEffect(() => {
     return () => {
-      fileList.forEach(file => {
+      fileList.forEach((file) => {
         if (file.url) URL.revokeObjectURL(file.url);
       });
     };
@@ -35,7 +36,7 @@ function Sell() {
   const handleUpload = async (options) => {
     const { onSuccess } = options;
     setTimeout(() => {
-      onSuccess("OK");   
+      onSuccess("OK");
     }, 500);
   };
 
@@ -54,27 +55,53 @@ function Sell() {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      console.log("Données du formulaire:", values);
-      console.log("Images:", fileList);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // Vérifiez que l'utilisateur est connecté et a un profil vendeur
+    const token = localStorage.getItem('token');
+    if (!token) {
+    	message.error('Vous devez être connecté pour vendre un article');
+ 
+    return;
+}
+
+      // 1. Création de l'article
+      const articleData = {
+        title: values.title,
+        description: values.description,
+        price: parseFloat(values.price),
+        tags: [values.category] 
+      };
+
+      const articleResponse = await sellerService.createArticle(articleData);
+      const articleId = articleResponse.data.id;
+
+      // 2. Upload des images
+      for (const file of fileList) {
+        if (file.originFileObj) {
+          await sellerService.uploadArticleImage(articleId, file.originFileObj);
+        }
+      }
+
       message.success("Votre annonce a été publiée avec succès!");
-      
-      // Redirection vers la page de profil avec les données du nouvel article
-      navigate("/profil", { 
-        state: { 
-          newArticle: {
-            ...values,
-            images: fileList
-          } 
-        } 
-      });
-    } catch (error) {
-      message.error("Erreur lors de la publication");
-      console.error(error);
-    } finally {
+      navigate(`/article/${articleId}`); // Redirige vers la page de l'article
+      } catch (error) {
+  console.error("Erreur lors de la publication:", error);
+  if (error.response) {
+    // Erreur venant du backend
+    message.error(error.response.data.message || "Erreur serveur");
+  } else if (error.request) {
+    // La requête a été faite mais aucune réponse n'a été reçue
+    message.error("Pas de réponse du serveur");
+  } else {
+    // Erreur lors de la configuration de la requête
+    message.error("Erreur de configuration de la requête");
+  }
+} finally {
       setLoading(false);
     }
   };
+
+      
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -106,10 +133,16 @@ function Sell() {
               maxCount={5}
               className="border-2 border-dashed border-[#346644] rounded-lg bg-[#CFF3CF] hover:bg-[#A6CB9C] transition-colors"
             >
-              <p className="ant-upload-drag-icon text-[#346644]">
-                <InboxOutlined className="text-3xl text-green-800" />
+              <p
+                className="ant-upload-drag-icon text-[#346644]"
+              >
+                <InboxOutlined
+                  className="text-3xl"
+                />
               </p>
-              <p className="ant-upload-text font-medium text-green-900">
+              <p
+                className="ant-upload-text font-medium"
+              >
                 Cliquez ou glissez-déposez vos photos
               </p>
               <p className="ant-upload-hint text-gray-400">
@@ -314,14 +347,17 @@ function Sell() {
             )}
 
             {currentStep < steps.length - 1 ? (
-              <Button onClick={nextStep} size="large" color="#346644" className="ml-auto">
+              <Button
+                onClick={nextStep}
+                size="large"
+                className="ml-auto"
+              >
                 Suivant
               </Button>
             ) : (
               <Button
                 htmlType="submit"
                 size="large"
-                color="#346644"
                 loading={loading}
                 className="ml-auto"
               >
