@@ -55,6 +55,56 @@ public class SellersController : ControllerBase
         return new SellerDto(seller);
     }
 
+    [HttpGet("{id:int}/articles")]
+    public object GetSellerArticles(uint id)
+    {
+        Seller? seller = _db.Sellers.Find(id);
+        if (seller == null) return NotFound();
+        
+        Article[] articles = _db.Articles
+            .Include(art => art.Seller)
+            .Where(art => art.Seller.Id == seller.Id)
+            .Include(art => art.Tags)
+            .Include(art => art.Notations)
+            .Include(art => art.Likes)
+            .Include(art => art.Category)
+            .ToArray();
+
+        return articles.Select(art => new ArticleDto(art, _db.TagArticles
+            .Include(tag => tag.Article)
+            .Include(tag => tag.Tag)
+            .Where(tag => tag.Article.Id == art.Id)
+            .ToArray()));
+    }
+
+    [HttpGet("me/articles")]
+    [Authorize]
+    public object GetCurrentSellerArticles()
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Seller? seller = _db.Sellers.Include(seller => seller.Account)
+            .FirstOrDefault(seller => seller.Account.Id == account.Id);
+        
+        if (seller == null) return NotFound();
+        
+        Article[] articles = _db.Articles
+            .Include(art => art.Seller)
+            .Where(art => art.Seller.Id == seller.Id)
+            .Include(art => art.Tags)
+            .Include(art => art.Notations)
+            .Include(art => art.Likes)
+            .Include(art => art.Category)
+            .ToArray();
+
+        return articles.Select(art => new ArticleDto(art, _db.TagArticles
+            .Include(tag => tag.Article)
+            .Include(tag => tag.Tag)
+            .Where(tag => tag.Article.Id == art.Id)
+            .ToArray()));
+    }
+
     [HttpGet("me")]
     public object GetAccountSeller()
     {

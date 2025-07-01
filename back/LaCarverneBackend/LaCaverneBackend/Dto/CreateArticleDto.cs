@@ -6,5 +6,5 @@ public class CreateArticleDto
     public string Description { get; set; }
     public string[] Tags { get; set; }
     public double Price { get; set; }
-    public string? Category { get; set; }
+    public int? CategoryId { get; set; }
 }
