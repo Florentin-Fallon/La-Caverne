@@ -82,8 +82,39 @@ function Sell() {
     try {
       // Vérifiez que l'utilisateur est connecté et a un profil vendeur
       const token = localStorage.getItem("token");
+      console.log("Token présent:", !!token);
+      console.log("Token:", token ? token.substring(0, 20) + "..." : "Aucun");
+
       if (!token) {
         message.error("Vous devez être connecté pour vendre un article");
+        return;
+      }
+
+      // Vérifier que l'utilisateur a un profil vendeur
+      try {
+        console.log("Vérification du profil vendeur...");
+        const sellerProfile = await sellerService.getMySellerProfile();
+        console.log("Profil vendeur trouvé:", sellerProfile.data);
+      } catch (sellerError) {
+        console.error("Erreur profil vendeur:", sellerError);
+        console.error("Status:", sellerError.response?.status);
+        console.error("Data:", sellerError.response?.data);
+
+        if (sellerError.response?.status === 404) {
+          message.error(
+            "Vous devez créer un profil vendeur avant de pouvoir vendre des articles"
+          );
+          navigate("/profil"); // Rediriger vers la page de profil pour créer le profil vendeur
+          return;
+        } else if (sellerError.response?.status === 401) {
+          console.log("Token invalide, redirection vers la connexion");
+          message.error("Session expirée. Veuillez vous reconnecter.");
+          localStorage.removeItem("token");
+          navigate("/connexion");
+          return;
+        }
+        console.error("Autre erreur lors de la vérification du profil vendeur");
+        message.error("Erreur lors de la vérification du profil vendeur");
         return;
       }
 

@@ -64,7 +64,7 @@ function Home() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/lacaverne/articles");
+        const response = await fetch("/api/lacaverne/articles?pageCount=100");
 
         if (response.ok) {
           const data = await response.json();
