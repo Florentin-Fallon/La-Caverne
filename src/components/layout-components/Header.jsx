@@ -179,7 +179,7 @@ function Header() {
                     </div>
                   </div>
                   <Link
-                    to="/profil"
+                    to="/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 flex items-center gap-2"
                     onClick={() => setShowProfileMenu(false)}
                   >
@@ -200,7 +200,7 @@ function Header() {
                     Mon Profil
                   </Link>
                   <Link
-                    to="/sell"
+                    to="/profil"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 flex items-center gap-2"
                     onClick={() => setShowProfileMenu(false)}
                   >
