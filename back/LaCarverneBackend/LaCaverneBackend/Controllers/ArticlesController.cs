@@ -20,13 +20,15 @@ public class ArticlesController : ControllerBase
     }
     
     [HttpGet]
-    public object Get(int page, int pageCount = 10)
+    public object Get(int page, int pageCount = 10, int? categoryId = null)
     {
         return _db.Articles.Take(pageCount)
             .Include(art => art.Seller)
             .Include(art => art.Tags)
             .Include(art => art.Notations)
             .Include(art => art.Likes)
+            .Include(art => art.Category)
+            .Where(art => categoryId == null || art.Category.Id == categoryId)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -51,10 +53,19 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPost("{id:int}/image")]
+    [Authorize]
     public object UploadImage(uint id, IFormFile image)
     {
-        Article? article = _db.Articles.Find(id);
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Article? article = _db.Articles.Include(art => art.Seller).FirstOrDefault(art => art.Id == id);
         if (article == null) return NotFound();
+
+        Seller? seller = account.GetSellerProfile(_db);
+        if (seller == null) return BadRequest("this account does not have a seller profile");
+        if (article.Seller.Id != seller.Id)
+            return BadRequest("this article belongs to another seller");
 
         if (image.ContentType != "image/jpeg" && image.ContentType != "image/png")
             return BadRequest("image must be JPEG (.jpg) or PNG (.png)");
@@ -83,6 +94,7 @@ public class ArticlesController : ControllerBase
             .Include(art => art.Tags)
             .Include(art => art.Notations)
             .Include(art => art.Likes)
+            .Include(art => art.Category)
             .Select(art => new ArticleDto(art, _db.TagArticles
                 .Include(tag => tag.Article)
                 .Include(tag => tag.Tag)
@@ -149,6 +161,17 @@ public class ArticlesController : ControllerBase
             foreach (Tag tag in tags)
                 _db.TagArticles.Add(new TagArticle() { Article = article, Tag = tag });
         }
+        if (dto.CategoryId != null)
+        {
+            Category? category = dto.CategoryId == null 
+                ? null
+                : _db.Categories.Find(dto.CategoryId);
+
+            if (category == null)
+                return BadRequest("category does not exist");
+
+            article.Category = category;
+        }
 
         _db.SaveChanges();
 
@@ -174,6 +197,10 @@ public class ArticlesController : ControllerBase
         if (dto.Price <= 0 || dto.Price > 1000000)
             return BadRequest("price must be superior than zero and less than a million");
 
+        Category? category = dto.CategoryId == null
+            ? null
+            : _db.Categories.Find(dto.CategoryId);
+
         List<Tag> tags = [];
         foreach (string tag in dto.Tags)
         {
@@ -194,7 +221,8 @@ public class ArticlesController : ControllerBase
             Description = dto.Description,
             IsParrotSelection = false,
             Seller = seller,
-            Price = dto.Price
+            Price = dto.Price,
+            Category = category
         };
 
         _db.Articles.Add(article);
