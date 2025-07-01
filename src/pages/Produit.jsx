@@ -51,7 +51,7 @@ function Produit() {
           const data = await response.json();
           setProduit(data);
           if (data.imageCount > 0) {
-            setSelectedImage(`/api/lacaverne/articles/${id}/images/1`);
+            setSelectedImage(`/api/lacaverne/articles/${id}/images/0`);
           } else {
             setSelectedImage(null);
           }
@@ -386,30 +386,31 @@ function Produit() {
                       key={idx}
                       onClick={() =>
                         setSelectedImage(
-                          `/api/lacaverne/articles/${id}/images/${idx + 1}`
+                          `/api/lacaverne/articles/${id}/images/${idx}`
                         )
                       }
                       className={`rounded-lg overflow-hidden border-2 transition-all bg-white ${
                         selectedImage ===
-                        `/api/lacaverne/articles/${id}/images/${idx + 1}`
+                        `/api/lacaverne/articles/${id}/images/${idx}`
                           ? "border-[#346644]"
                           : "border-transparent"
                       } w-16 h-16 flex items-center justify-center`}
                     >
                       <img
-                        src={`/api/lacaverne/articles/${id}/images/${idx + 1}`}
+                        src={`/api/lacaverne/articles/${id}/images/${idx}`}
                         alt={`Miniature ${idx + 1}`}
-                        className="object-cover w-14 h-14"
+                        className="object-cover w-full h-full"
                       />
                     </button>
                   ))}
               </div>
-              <div className="bg-white rounded-lg overflow-hidden flex items-center justify-center ml-4 w-[450px] h-[450px]">
+              <div className="bg-white rounded-lg overflow-hidden flex items-center justify-center ml-4 w-full max-w-[450px] h-[450px] min-h-[300px]">
                 {selectedImage ? (
                   <img
                     src={selectedImage}
                     alt={produit.title}
-                    className="object-cover w-full h-full"
+                    className="object-contain w-full h-full max-w-full max-h-full"
+                    style={{ maxWidth: "100%", maxHeight: "100%" }}
                   />
                 ) : (
                   <div className="text-gray-500 text-center">

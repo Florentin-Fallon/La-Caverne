@@ -10,19 +10,25 @@ function CardProduct({ id, title, price, category, image, tags }) {
 
   return (
     <div
-      className="flex flex-col items-start justify-center gap-1 border-1 border-white hover:duration-200 hover:border-gray-400 shadow-2xl cursor-pointer rounded-2xl p-3 my-5 transition-transform duration-200 hover:scale-105"
+      className="flex flex-col items-start justify-center gap-1 border-1 border-white hover:duration-200 hover:border-gray-400 shadow-2xl cursor-pointer rounded-2xl p-3 my-5 transition-transform duration-200 hover:scale-105 w-56"
       onClick={handleClick}
     >
-      <div>
+      <div className="w-full flex justify-center">
         <img
           src={image}
           alt={title || "Produit"}
-          className="w-50 h-50 rounded-sm"
+          className="w-50 h-50 rounded-sm object-cover max-w-full max-h-full"
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
         />
       </div>
       <div className="flex flex-col items-start justify-center gap-2 w-full">
-        <h1 className="text-white text-left">{title || "Tour gaming"}</h1>
-        <p className="text-white text-left font-bold">{price || "300€"}</p>
+        <h1
+          className="text-white text-left truncate w-full max-w-full"
+          title={title || "Tour gaming"}
+        >
+          {title || "Tour gaming"}
+        </h1>
+        <p className="text-white text-left font-bold">{price || "300€"}€</p>
         <div className="flex flex-wrap gap-1">
           {tags && tags.length > 0 ? (
             tags.slice(0, 2).map((tag, index) => (

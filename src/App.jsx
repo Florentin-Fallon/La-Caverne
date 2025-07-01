@@ -12,6 +12,7 @@ import Produit from "./pages/Produit";
 import Profil from "./pages/Profil";
 import Profile from "./pages/Profile.jsx";
 import Panier from "./pages/Panier.jsx";
+import Divers from "./pages/Divers.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profil" element={<Profil />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/panier" element={<Panier />} />
+        <Route path="/divers" element={<Divers />} />
       </Routes>
     </BrowserRouter>
   );
