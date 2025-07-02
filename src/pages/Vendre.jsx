@@ -12,7 +12,6 @@ import {
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { sellerService } from "../api/sellerService";
-import { sellerService } from "../api/sellerService";
 
 const { Option } = Select;
 const { TextArea } = Input;
