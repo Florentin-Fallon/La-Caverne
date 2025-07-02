@@ -54,10 +54,10 @@ function Panier() {
   };
 
   return (
-    <div className="bg-[#0F2E19] min-h-screen">
+    <div className="bg-[#0F2E19] min-h-screen flex flex-col">
       <Header />
 
-      <div className="container mx-auto px-5 py-8">
+      <div className="container mx-auto px-5 py-8 flex-1">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-2">Votre Panier</h1>
