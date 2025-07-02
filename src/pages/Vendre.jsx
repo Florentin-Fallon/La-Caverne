@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { sellerService } from "../api/sellerService";
+import { sellerService } from "../api/sellerService";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -270,7 +271,10 @@ function Vendre() {
             >
               <p className="ant-upload-drag-icon text-[#346644]">
                 <InboxOutlined className="text-3xl" />
+              <p className="ant-upload-drag-icon text-[#346644]">
+                <InboxOutlined className="text-3xl" />
               </p>
+              <p className="ant-upload-text font-medium">
               <p className="ant-upload-text font-medium">
                 Cliquez ou glissez-déposez vos photos
               </p>
@@ -476,6 +480,7 @@ function Vendre() {
             )}
 
             {currentStep < steps.length - 1 ? (
+              <Button onClick={nextStep} size="large" className="ml-auto">
               <Button onClick={nextStep} size="large" className="ml-auto">
                 Suivant
               </Button>
