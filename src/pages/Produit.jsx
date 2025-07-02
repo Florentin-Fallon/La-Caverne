@@ -19,11 +19,40 @@ function Produit() {
   const [userComment, setUserComment] = useState("");
   const [submittingNotation, setSubmittingNotation] = useState(false);
   const [showNotationModal, setShowNotationModal] = useState(false);
+  const [liked, setLiked] = useState(false);
   const [notification, setNotification] = useState({
     isVisible: false,
     message: "",
     type: "success",
   });
+
+  const handleLikeToggle = async () => {
+    if (!isLoggedIn()) {
+      console.warn("Utilisateur non connecté, impossible de liker");
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`https://services.cacahuete.dev/api/lacaverne/articles/${id}/like`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setLiked(prev => !prev);
+      } else if (response.status === 401) {
+        console.warn("Token invalide ou expiré");
+      } else {
+        console.warn("Impossible de liker l'article:", response.status);
+      }
+    } catch (err) {
+      console.error("Erreur lors du like:", err);
+    }
+  };
 
   const showNotification = (message, type = "success") => {
     setNotification({
@@ -465,18 +494,54 @@ function Produit() {
               )}
 
               <div className="relative">
-                <button
-                  onClick={addToCart}
-                  className="bg-white text-[#0F2E19] py-2 my-3 mb-5 px-9 rounded-lg cursor-pointer transition-colors hover:bg-gray-100"
-                >
-                  Ajouter au panier
-                </button>
-
-                {showAddedMessage && (
-                  <div className="absolute top-0 left-0 right-0 bg-[#66C183] text-white py-2 px-4 rounded-lg text-center transform -translate-y-full transition-transform duration-300">
-                    ✓ Produit ajouté au panier !
-                  </div>
-                )}
+                <div className='grid grid-cols-2 gap-4 w-[60%]'>
+                  <button
+                    onClick={addToCart}
+                    className="bg-white text-[#0F2E19] py-2 my-3 mb-5 px-9 rounded-lg cursor-pointer transition-colors hover:bg-gray-100"
+                  >
+                    Ajouter au panier
+                  </button>
+                  <button
+                      onClick={handleLikeToggle}
+                      className="bg-white text-[#0F2E19] w-[40px] my-3 mb-5 p-2 rounded-lg cursor-pointer transition-colors flex items-center justify-center"
+                  >
+                    {liked ? (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="#E0245E"
+                        >
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                            2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5
+                            2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42
+                            22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                          />
+                        </svg>
+                    ) : (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="#0F2E19"
+                        >
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28
+                            2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81
+                            4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3
+                            22 5.42 22 8.5c0 3.78-3.4 6.86-8.55
+                            11.54L12 21.35z"
+                          />
+                        </svg>
+                    )}
+                  </button>
+                  {showAddedMessage && (
+                      <div className="absolute top-0 left-0 right-0 bg-[#66C183] text-white py-2 px-4 rounded-lg text-center transform -translate-y-full transition-transform duration-300">
+                        ✓ Produit ajouté au panier !
+                      </div>
+                    )}
+                </div>
               </div>
 
               <div>
