@@ -259,6 +259,7 @@ function Vendre() {
               La première photo sera la photo principale. Vous pouvez ajouter
               jusqu'à 5 photos.
             </p>
+
             <Upload.Dragger
               customRequest={handleUpload}
               beforeUpload={beforeUpload}
@@ -270,10 +271,7 @@ function Vendre() {
             >
               <p className="ant-upload-drag-icon text-[#346644]">
                 <InboxOutlined className="text-3xl" />
-              <p className="ant-upload-drag-icon text-[#346644]">
-                <InboxOutlined className="text-3xl" />
               </p>
-              <p className="ant-upload-text font-medium">
               <p className="ant-upload-text font-medium">
                 Cliquez ou glissez-déposez vos photos
               </p>
@@ -281,6 +279,7 @@ function Vendre() {
                 Formats supportés: JPG, PNG, JPEG (max 5MB par image)
               </p>
             </Upload.Dragger>
+            
             {fileList.length > 0 && (
               <div className="mt-4 text-center">
                 <p className="text-sm text-gray-500">
@@ -478,8 +477,7 @@ function Vendre() {
               </Button>
             )}
 
-            {currentStep < steps.length - 1 ? (
-              <Button onClick={nextStep} size="large" className="ml-auto">
+            {currentStep < steps.length - 1 ? (              
               <Button onClick={nextStep} size="large" className="ml-auto">
                 Suivant
               </Button>
