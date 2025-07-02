@@ -65,6 +65,33 @@ public class ArticlesController : ControllerBase
         
         return NotFound();
     }
+    
+    [HttpPut("{id:int}/images/{imageId:int}")]
+    [Authorize]
+    public object UpdateImage(uint id, uint imageId, IFormFile image)
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Article? article = _db.Articles.Include(art => art.Seller).FirstOrDefault(art => art.Id == id);
+        if (article == null) return NotFound();
+
+        Seller? seller = account.GetSellerProfile(_db);
+        if (seller == null) return BadRequest("this account does not have a seller profile");
+        if (article.Seller.Id != seller.Id && !account.IsAdmin)
+            return BadRequest("this article belongs to another seller");
+
+        if (image.ContentType != "image/jpeg" && image.ContentType != "image/png")
+            return BadRequest("image must be JPEG (.jpg) or PNG (.png)");
+
+        string path = this.GetWebResourcesFolder($"article_images/{id}");
+        string ext = image.ContentType == "image/png" ? "png" :
+            (image.ContentType == "image/jpeg" || image.ContentType == "image/jpg") ? "jpeg" : "wtf";
+        using FileStream newFileStream = new FileStream($"{path}/{imageId}.{ext}", FileMode.Create);
+        image.CopyTo(newFileStream);
+
+        return Created($"/articles/{article.Id}/images/{imageId}", null);
+    }
 
     [HttpPost("{id:int}/image")]
     [Authorize]
@@ -78,7 +105,7 @@ public class ArticlesController : ControllerBase
 
         Seller? seller = account.GetSellerProfile(_db);
         if (seller == null) return BadRequest("this account does not have a seller profile");
-        if (article.Seller.Id != seller.Id)
+        if (article.Seller.Id != seller.Id && !account.IsAdmin)
             return BadRequest("this article belongs to another seller");
 
         if (image.ContentType != "image/jpeg" && image.ContentType != "image/png")
@@ -131,7 +158,7 @@ public class ArticlesController : ControllerBase
         if (seller == null) return BadRequest("this account does not have a seller profile");
 
         Article? article = _db.Articles.Include(art => art.Seller).FirstOrDefault(art => art.Id == id);
-        if (article == null || article.Seller.Id != seller.Id) return NotFound();
+        if ((article == null || article.Seller.Id != seller.Id) && !account.IsAdmin) return NotFound();
 
         if (!string.IsNullOrWhiteSpace(dto.Title))
         {
@@ -190,6 +217,31 @@ public class ArticlesController : ControllerBase
         _db.SaveChanges();
 
         return new ArticleDto(article, _db.TagArticles.Include(tag => tag.Article).Include(tag => tag.Tag).Where(tag => tag.Article.Id == article.Id).ToArray());
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public object DeleteArticle(uint id)
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Seller? seller = account.GetSellerProfile(_db);
+        if (seller == null) return BadRequest("this account does not have a seller profile");
+
+        Article? article = _db.Articles.Include(art => art.Seller).FirstOrDefault(art => art.Id == id);
+        if (article == null) return NotFound();
+        if (article.Seller.Id != seller.Id && !account.IsAdmin)
+            return Unauthorized("only the seller can delete the article");
+
+        _db.TagArticles.RemoveRange(_db.TagArticles.Include(tag => tag.Article).Where(tag => tag.Article.Id == article.Id));
+        _db.Notations.RemoveRange(_db.Notations.Include(tag => tag.Article).Where(tag => tag.Article != null && tag.Article.Id == article.Id));
+        _db.Likes.RemoveRange(_db.Likes.Include(tag => tag.Article).Where(tag => tag.Article.Id == article.Id));
+
+        _db.Articles.Remove(article);
+        _db.SaveChanges();
+
+        return NoContent();
     }
 
     [HttpPost]

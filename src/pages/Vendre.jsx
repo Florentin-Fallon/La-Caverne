@@ -132,6 +132,7 @@ function Vendre() {
       // Récupérer l'ID de la catégorie
       const categoriesResponse = await sellerService.getCategories();
       const categories = categoriesResponse.data;
+      console.log("Categorias:", categories, allValues.category);
       const selectedCategory = categories.find(
         (cat) => cat.name.toLowerCase() === allValues.category.toLowerCase()
       );
@@ -341,7 +342,7 @@ function Vendre() {
               >
                 <Option value="immobilier">Immobilier</Option>
                 <Option value="electromenager">Électroménager</Option>
-                <Option value="vehicules">Véhicules</Option>
+                <Option value="véhicules">Véhicules</Option>
                 <Option value="informatique">Informatique</Option>
                 <Option value="bricolage">Bricolage</Option>
               </Select>

@@ -63,7 +63,7 @@ public class Account
             issuer: cfg["Jwt:Issuer"],
             audience: cfg["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
+            expires: DateTime.UtcNow.AddHours(IsAdmin ? 1 : 5),
             signingCredentials: creds);
 
         string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
