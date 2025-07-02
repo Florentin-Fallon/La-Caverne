@@ -4,6 +4,7 @@ import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardRating from "../components/UI/CardRating";
 import Notification from "../components/UI/Notification";
+import {OrbitProgress} from "react-loading-indicators";
 
 function Produit() {
   const { id } = useParams();
@@ -322,8 +323,8 @@ function Produit() {
       <div className="flex flex-col min-h-screen bg-[#0F2E19] pt-5">
         <Header />
         <main className="flex-1 container mx-auto px-4 py-8">
-          <div className="flex justify-center items-center py-20">
-            <div className="text-white text-xl">Chargement du produit...</div>
+          <div className="flex items-center justify-center py-20">
+            <OrbitProgress color="white" size="small" text="" textColor="" />
           </div>
         </main>
         <Footer />
