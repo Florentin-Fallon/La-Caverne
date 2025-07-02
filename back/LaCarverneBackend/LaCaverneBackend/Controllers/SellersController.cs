@@ -46,6 +46,12 @@ public class SellersController : ControllerBase
         return Created($"/sellers/{seller.Id}", new SellerDto(seller));
     }
 
+    [HttpGet]
+    public object GetSellers()
+    {
+        return _db.Sellers.Select(seller => new SellerDto(seller));
+    }
+
     [HttpGet("{id:int}")]
     public object GetSeller(uint id)
     {

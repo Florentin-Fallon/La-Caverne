@@ -14,6 +14,7 @@ import Profil from "./pages/Profil.jsx";
 import Panier from "./pages/Panier.jsx";
 import Divers from "./pages/Divers.jsx";
 import OnBoardingProfilVendeur from "./pages/OnBoardingProfilVendeur.jsx";
+import {Admin} from "./pages/Admin.jsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/panier" element={<Panier />} />
         <Route path="/divers" element={<Divers />} />
         <Route path="/vendeur-ob" element={<OnBoardingProfilVendeur />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
