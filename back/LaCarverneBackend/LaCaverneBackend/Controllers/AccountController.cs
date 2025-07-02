@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Text.RegularExpressions;
 using LaCaverneBackend.Database;
 using LaCaverneBackend.Database.Models;
 using LaCaverneBackend.Dto;
@@ -48,7 +49,70 @@ public class AccountController : ControllerBase
     [HttpGet("account")]
     public object GetLoggedInAccount()
     {
-        return Ok(new AccountDto(User.Account(_db)));
+        return Ok(new AccountDto(User.Account(_db), true));
+    }
+    
+    [Authorize]
+    [HttpPut("account")]
+    public object ModifyLoggedInAccount([FromBody] ModifyAccountDto dto)
+    {
+        Account? account = User.Account(_db);
+        if (account == null) return Unauthorized();
+
+        Regex phoneNumberRegex = new(@"^(\+33|0)[1-9](\d{2}){4}$");
+
+        if (!string.IsNullOrWhiteSpace(dto.Username))
+        {
+            if (dto.Username.Length < 1 || dto.Username.Length > 20)
+                return BadRequest("username must be between 1 and 20 characters long");
+            
+            account.Username = dto.Username;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.FirstName))
+        {
+            if (dto.FirstName.Length < 1 || dto.FirstName.Length > 40)
+                return BadRequest("first name must be between 1 and 40 characters long");
+            
+            account.FirstName = dto.FirstName;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.LastName))
+        {
+            if (dto.LastName.Length < 1 || dto.LastName.Length > 40)
+                return BadRequest("last name must be between 1 and 40 characters long");
+            
+            account.LastName = dto.LastName;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.PhoneNumber))
+        {
+            if (!phoneNumberRegex.IsMatch(dto.PhoneNumber))
+                return BadRequest("invalid phone number, must be +33123456789 or 0123456789 without spaces");
+            
+            account.PhoneNumber = dto.PhoneNumber;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.Address))
+        {
+            if (dto.Address.Length < 1 || dto.Address.Length > 100)
+                return BadRequest("address must be between 1 and 100 characters long");
+            
+            account.Address = dto.Address;
+        }
+        if (dto.PostalCode != null)
+        {
+            if (dto.PostalCode > 99999)
+                return BadRequest("postal code must be lower or equal to 99999");
+            
+            account.PostalCode = dto.PostalCode!.Value;
+        }
+        if (!string.IsNullOrWhiteSpace(dto.CityName))
+        {
+            if (dto.CityName.Length < 1 || dto.CityName.Length > 70)
+                return BadRequest("city name must be between 1 and 70 characters long");
+            
+            account.CityName = dto.CityName;
+        }
+
+        _db.SaveChanges();
+        return new AccountDto(account, true);
     }
 
     [HttpPost("login")]
