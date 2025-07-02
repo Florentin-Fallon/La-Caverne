@@ -34,7 +34,7 @@ public static class FeedAlgorithm
     {
         int notation = article.Notations.Count == 0 ? -1 : article.Notations.Sum(art => art.Stars) / article.Notations.Count;
 
-        return notation * 2f
+        return notation * article.Notations.Count
                + article.Likes.Count * 0.5f
                + article.ImageCount * 0.25f
                + article.Tags.Count * 0.1f
