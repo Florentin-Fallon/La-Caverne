@@ -29,3 +29,23 @@
 .animate-slide-out {
   animation: slideOut 0.3s ease-in;
 }
+
+@layer base {
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #66C183 #346644
+  }
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #346644;
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #66C183;
+    border-radius: 4px;
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #66C183;
+  }
+}

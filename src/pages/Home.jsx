@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Header from "../components/layout-components/Header";
 import Cards from "../components/UI/Cards";
 import CardProduct from "../components/UI/CardProduct";
 import Bannere from "../components/layout-components/Bannere";
 import Footer from "../components/layout-components/Footer";
 import Notification from "../components/UI/Notification";
+import {OrbitProgress} from "react-loading-indicators";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -17,23 +18,28 @@ function Home() {
   });
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const divScrollRef = useRef(null);
 
   const selectedProducts = products.slice(0, 10);
 
-  useEffect(() => {
-    if (selectedProducts.length > 4) {
-      const interval = setInterval(() => {
-        if (!isScrolling) {
-          setScrollPosition((prev) => {
-            const maxScroll = (selectedProducts.length - 4) * 280;
-            return prev >= maxScroll ? 0 : prev + 280;
-          });
-        }
-      }, 4000);
+  //useEffect(() => {
+  //  if (selectedProducts.length > 4) {
+  //    const interval = setInterval(() => {
+  //      if (!isScrolling) {
+  //        setScrollPosition((prev) => {
+  //          const maxScroll = (selectedProducts.length - 4) * 280;
+  //          return prev >= maxScroll ? 0 : prev + 280;
+  //        });
+  //      }
+  //    }, 4000);
+//
+  //    return () => clearInterval(interval);
+  //  }
+  //}, [selectedProducts.length, isScrolling]);
 
-      return () => clearInterval(interval);
-    }
-  }, [selectedProducts.length, isScrolling]);
+  useEffect(() => {
+     if (divScrollRef && divScrollRef.current) divScrollRef.current.scrollLeft = scrollPosition;
+  }, [scrollPosition]);
 
   const handleScroll = (direction) => {
     setIsScrolling(true);
@@ -97,7 +103,7 @@ function Home() {
 
       <Header />
       <Cards />
-      <div className="flex flex-col mt-30">
+      <div className="flex flex-col mt-5">
         <div className="relative">
           <Bannere />
           {!loading && !error && selectedProducts.length > 0 && (
@@ -105,7 +111,7 @@ function Home() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleScroll("left")}
-                  className="bg-[#346644] text-white p-2 rounded-full hover:bg-[#0F2E19] transition-colors shadow-lg"
+                  className="bg-[#346644] text-white p-2 rounded-full hover:bg-[#3D8755] transition-colors shadow-lg cursor-pointer"
                   disabled={scrollPosition === 0}
                 >
                   <svg
@@ -124,7 +130,7 @@ function Home() {
                 </button>
                 <button
                   onClick={() => handleScroll("right")}
-                  className="bg-[#346644] text-white p-2 rounded-full hover:bg-[#0F2E19] transition-colors shadow-lg"
+                  className="bg-[#346644] text-white p-2 rounded-full hover:bg-[#3D8755] transition-colors shadow-lg cursor-pointer"
                   disabled={
                     scrollPosition >= (selectedProducts.length - 4) * 280
                   }
@@ -149,9 +155,9 @@ function Home() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-white text-xl">Chargement des produits...</div>
-          </div>
+            <div className="flex items-center justify-center py-20">
+              <OrbitProgress color="white" size="small" text="" textColor="" />
+            </div>
         ) : error ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-red-400 text-xl">{error}</div>
@@ -162,10 +168,9 @@ function Home() {
           </div>
         ) : (
           <div className="relative px-8">
-            <div className="overflow-hidden">
+            <div className="overflow-x-scroll scroll-smooth scrollbar-custom" ref={divScrollRef}>
               <div
                 className="flex gap-6 transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${scrollPosition}px)` }}
               >
                 {selectedProducts.map((product) => (
                   <div key={product.id} className="flex-shrink-0">

@@ -4,6 +4,7 @@ import Header from "../components/layout-components/Header";
 import Footer from "../components/layout-components/Footer";
 import CardRating from "../components/UI/CardRating";
 import Notification from "../components/UI/Notification";
+import {OrbitProgress} from "react-loading-indicators";
 
 function Produit() {
   const { id } = useParams();
@@ -322,8 +323,8 @@ function Produit() {
       <div className="flex flex-col min-h-screen bg-[#0F2E19] pt-5">
         <Header />
         <main className="flex-1 container mx-auto px-4 py-8">
-          <div className="flex justify-center items-center py-20">
-            <div className="text-white text-xl">Chargement du produit...</div>
+          <div className="flex items-center justify-center py-20">
+            <OrbitProgress color="white" size="small" text="" textColor="" />
           </div>
         </main>
         <Footer />
@@ -408,7 +409,7 @@ function Produit() {
         <div className="bg-[#0F2E19] p-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="flex flex-row lg:flex-row gap-4">
-              <div className="flex flex-col gap-4 justify-center">
+              <div className="flex flex-col gap-4">
                 {produit.imageCount > 0 &&
                   Array.from({ length: produit.imageCount }, (_, idx) => (
                     <button
@@ -418,7 +419,7 @@ function Produit() {
                           `/api/lacaverne/articles/${id}/images/${idx}`
                         )
                       }
-                      className={`rounded-lg overflow-hidden border-2 transition-all bg-white ${
+                      className={`rounded-lg overflow-hidden border-2 transition-all bg-white cursor-pointer ${
                         selectedImage ===
                         `/api/lacaverne/articles/${id}/images/${idx}`
                           ? "border-[#346644]"
@@ -494,7 +495,7 @@ function Produit() {
               )}
 
               <div className="relative">
-                <div className='grid grid-cols-2 gap-4 w-[60%]'>
+                <div className='grid grid-cols-2 gap-2 w-[60%]'>
                   <button
                     onClick={addToCart}
                     className="bg-white text-[#0F2E19] py-2 my-3 mb-5 px-9 rounded-lg cursor-pointer transition-colors hover:bg-gray-100"
