@@ -21,9 +21,9 @@ public class ArticlesController : ControllerBase
     }
     
     [HttpGet]
-    public object Get(int page, int pageCount = 10, int? categoryId = null)
+    public object Get(int? categoryId = null)
     {
-        return _db.Articles.Take(pageCount)
+        return _db.Articles
             .Include(art => art.Seller)
             .Include(art => art.Tags)
             .Include(art => art.Notations)
@@ -174,14 +174,14 @@ public class ArticlesController : ControllerBase
 
             article.Description = dto.Description;
         }
-        if (dto.Price != 0)
+        if (dto.Price.HasValue)
         {
             if (dto.Price <= 0 && dto.Price < 1000000)
                 return BadRequest("price must be greater than zero and less than a million");
 
-            article.Price = dto.Price;
+            article.Price = dto.Price.Value;
         }
-        if (dto.Tags.Length > 0)
+        if (dto.Tags != null && dto.Tags.Length > 0)
         {
             _db.TagArticles.RemoveRange(_db.TagArticles.Include(tag => tag.Article).Where(tag => tag.Article.Id == article.Id));
             
@@ -287,7 +287,7 @@ public class ArticlesController : ControllerBase
             Description = dto.Description,
             IsParrotSelection = false,
             Seller = seller,
-            Price = dto.Price,
+            Price = dto.Price.Value,
             Category = category
         };
 
