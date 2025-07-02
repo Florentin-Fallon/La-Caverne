@@ -67,7 +67,7 @@ function Header() {
   };
 
   return (
-    <div className="bg-white mx-5 pt-5 rounded-2xl p-5">
+    <div className="bg-white mx-5 pt-5 rounded-2xl p-5 border-[#0F2E19] border-2">
       <Notification
         message={notification.message}
         type={notification.type}

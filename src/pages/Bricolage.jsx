@@ -44,7 +44,9 @@ function Bricolage() {
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
-        <Header />
+        <div className={"mt-5"}>
+          <Header />
+        </div>
         <main className="flex-1 container mx-auto px-4 py-8">
           <div className="text-center">
             <div className="text-xl">Chargement des produits...</div>
@@ -58,7 +60,9 @@ function Bricolage() {
   if (error) {
     return (
       <div className="flex flex-col min-h-screen bg-gray-50">
-        <Header />
+        <div className={"mt-5"}>
+          <Header />
+        </div>
         <main className="flex-1 container mx-auto px-4 py-8">
           <div className="text-center">
             <div className="text-xl text-red-600">{error}</div>
@@ -71,7 +75,9 @@ function Bricolage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
+      <div className={"mt-5"}>
+        <Header />
+      </div>
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Bricolage</h1>

@@ -55,7 +55,9 @@ function Panier() {
 
   return (
     <div className="bg-[#0F2E19] min-h-screen flex flex-col">
-      <Header />
+      <div className={"mt-5"}>
+        <Header />
+      </div>
 
       <div className="container mx-auto px-5 py-8 flex-1">
         <div className="max-w-6xl mx-auto">
