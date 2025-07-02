@@ -7,26 +7,24 @@ import Carousel4 from "../../assets/Carousel4.png";
 
 function Cards() {
   const originalImages = [Carousel, Carousel2, Carousel3, Carousel4, Carousel5];
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const carouselRef = useRef(null);
 
   const images = [
-    originalImages[originalImages.length - 1],
     ...originalImages,
-    originalImages[0],
   ];
 
   const nextImage = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex((prevIndex) => prevIndex >= images.length-1 ? 0 : prevIndex + 1);
   };
 
   const prevImage = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    setCurrentIndex((prevIndex) => prevIndex < 0 ? images.length - 1 : prevIndex - 1);
   };
 
   useEffect(() => {
@@ -35,15 +33,15 @@ function Cards() {
     const handleTransitionEnd = () => {
       setIsTransitioning(false);
 
-      if (currentIndex === images.length - 1) {
-        setTimeout(() => {
-          setCurrentIndex(1);
-        }, 50);
-      } else if (currentIndex === 0) {
-        setTimeout(() => {
-          setCurrentIndex(originalImages.length);
-        }, 50);
-      }
+      //if (currentIndex === images.length - 1) {
+      //  setTimeout(() => {
+      //    setCurrentIndex(1);
+      //  }, 50);
+      //} else if (currentIndex === 0) {
+      //  setTimeout(() => {
+      //    setCurrentIndex(originalImages.length);
+      //  }, 50);
+      //}
     };
 
     const carousel = carouselRef.current;
@@ -69,7 +67,7 @@ function Cards() {
   };
 
   return (
-    <div className="mt-5 h-50 p-5 mx-5 rounded-2xl shadow-lg">
+    <div className="mt-5 p-5 mx-5">
       <div className="relative overflow-hidden rounded-xl">
         <div
           ref={carouselRef}
@@ -99,26 +97,26 @@ function Cards() {
 
         <button
           onClick={prevImage}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-200"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black opacity-50 text-white p-2 rounded-full hover:opacity-100 cursor-pointer transition-all duration-200"
         >
           ‹
         </button>
         <button
           onClick={nextImage}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-200"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black opacity-50 text-white p-2 rounded-full hover:opacity-100 cursor-pointer transition-all duration-200"
         >
           ›
         </button>
 
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {originalImages.map((_, index) => (
+          {images.map((_, index) => (
             <button
               key={index}
-              onClick={() => goToImage(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                (currentIndex - 1) % originalImages.length === index
+              onClick={() => goToImage(index - 1)}
+              className={`cursor-pointer w-3 h-3 rounded-full transition-all duration-200 ${
+                (currentIndex) % originalImages.length === index
                   ? "bg-white"
-                  : "bg-white bg-opacity-50 hover:bg-opacity-75"
+                  : "bg-white opacity-50 hover:opacity-75"
               }`}
             />
           ))}
