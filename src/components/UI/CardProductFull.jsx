@@ -21,7 +21,9 @@ function CardProductFull({ title, description, price, image, id }) {
         />
       </div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600 mb-2">{description}</p>
+      <p className="text-gray-600 mb-2 line-clamp-3 overflow-hidden">
+        {description}
+      </p>
       <p className="text-2xl font-bold text-[#346644]">{price}</p>
     </div>
   );

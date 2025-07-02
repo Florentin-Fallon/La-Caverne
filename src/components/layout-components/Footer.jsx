@@ -6,7 +6,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto text-center">
         <h3 className="text-xl font-semibold mb-4">La Caverne</h3>
         <p className="text-sm opacity-70">
-          © 2024 La Caverne. Tous droits réservés.
+          © 2025 La Caverne. Tous droits réservés.
         </p>
       </div>
     </footer>
