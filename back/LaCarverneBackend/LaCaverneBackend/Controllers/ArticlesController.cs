@@ -1,3 +1,4 @@
+using LaCaverneBackend.Core;
 using LaCaverneBackend.Database;
 using LaCaverneBackend.Database.Models;
 using LaCaverneBackend.Dto;
@@ -34,6 +35,19 @@ public class ArticlesController : ControllerBase
                 .Include(tag => tag.Tag)
                 .Where(tag => tag.Article.Id == art.Id)
                 .ToArray()));
+    }
+
+    [HttpGet("feed")]
+    public object GetFeed()
+    {
+        Account? account = User.Account(_db);
+        Article[] articles = FeedAlgorithm.Run(_db, account);
+
+        return articles.Select(art => new ArticleDto(art, _db.TagArticles
+            .Include(tag => tag.Article)
+            .Include(tag => tag.Tag)
+            .Where(tag => tag.Article.Id == art.Id)
+            .ToArray()));
     }
 
     [HttpGet("{id:int}/images/{imageId:int}")]
