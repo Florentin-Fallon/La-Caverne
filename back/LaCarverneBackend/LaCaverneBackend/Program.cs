@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "cors",
         policy  =>
         {
-            policy.WithOrigins("https://services.cacahuete.dev", "http://localhost:5173");
+            policy.AllowAnyOrigin();
             policy.AllowAnyMethod();
             policy.AllowAnyHeader();
         });

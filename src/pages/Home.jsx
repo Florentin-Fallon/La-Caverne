@@ -5,6 +5,7 @@ import CardProduct from "../components/UI/CardProduct";
 import Bannere from "../components/layout-components/Bannere";
 import Footer from "../components/layout-components/Footer";
 import Notification from "../components/UI/Notification";
+import {OrbitProgress} from "react-loading-indicators";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -154,9 +155,9 @@ function Home() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="text-white text-xl">Chargement des produits...</div>
-          </div>
+            <div className="flex items-center justify-center py-20">
+              <OrbitProgress color="white" size="small" text="" textColor="" />
+            </div>
         ) : error ? (
           <div className="flex justify-center items-center py-20">
             <div className="text-red-400 text-xl">{error}</div>
