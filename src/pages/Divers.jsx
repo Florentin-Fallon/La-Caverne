@@ -70,7 +70,7 @@ function Divers() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50 mt-5">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="text-center mb-8">

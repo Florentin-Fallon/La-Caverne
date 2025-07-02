@@ -6,6 +6,7 @@ using LaCaverneBackend.Dto;
 using LaCaverneBackend.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaCaverneBackend.Controllers;
 
@@ -42,14 +43,16 @@ public class AccountController : ControllerBase
         _db.Accounts.Add(account);
         _db.SaveChanges();
 
-        return Ok(new AccountLoginResponseDto(account, account.CreateToken(_db)));
+        return Ok(new AccountLoginResponseDto(account, false, account.CreateToken(_db)));
     }
     
     [Authorize]
     [HttpGet("account")]
     public object GetLoggedInAccount()
     {
-        return Ok(new AccountDto(User.Account(_db), true));
+        Account account = User.Account(_db)!;
+        
+        return Ok(new SellerInfosAccountDto(account, _db.Sellers.Include(seller => seller.Account).Any(seller => seller.Account.Id == account.Id)));
     }
     
     [Authorize]
@@ -126,7 +129,7 @@ public class AccountController : ControllerBase
             return BadRequest("account does not exist or password is incorrect");
 
         string token = account.CreateToken(_db);
-        return new AccountLoginResponseDto(account, token);
+        return new AccountLoginResponseDto(account, _db.Sellers.Include(seller =>  seller.Account).Any(seller => seller.Account.Id == account.Id), token);
     }
     
     [Authorize]
@@ -149,7 +152,7 @@ public class AccountController : ControllerBase
         
         string newToken = account.CreateToken(_db);
 
-        return Ok(new AccountLoginResponseDto(account, newToken));
+        return Ok(new AccountLoginResponseDto(account, _db.Sellers.Include(seller =>  seller.Account).Any(seller => seller.Account.Id == account.Id), newToken));
     }
 
     [Authorize]

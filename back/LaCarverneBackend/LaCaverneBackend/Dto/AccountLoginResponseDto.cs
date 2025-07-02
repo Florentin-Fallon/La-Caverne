@@ -5,16 +5,16 @@ namespace LaCaverneBackend.Dto;
 public class AccountLoginResponseDto
 {
     public string Token { get; set; }
-    public AccountDto Account { get; set; }
+    public SellerInfosAccountDto Account { get; set; }
 
     public AccountLoginResponseDto()
     {
         
     }
 
-    public AccountLoginResponseDto(Account account, string token)
+    public AccountLoginResponseDto(Account account, bool isSeller, string token)
     {
-        Account = new AccountDto(account, false);
+        Account = new SellerInfosAccountDto(account, isSeller);
         Token = token;
     }
 }
