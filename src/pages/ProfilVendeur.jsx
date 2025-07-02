@@ -49,10 +49,23 @@ function ProfilVendeur() {
           <Header />
         </div>
         <div className="container mx-auto px-5 py-8">
-          <div className="max-w-6xl mx-auto">
+          <div className=" mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-white mb-2">Profil vendeur</h1>
-              <p className="text-gray-300">Retrouvez tous vos biens en vente et gérez vos annonces</p>
+              <div className='grid grid-cols-2'>
+                <div className='flex flex-col items-start justify-between'>
+                  <h1 className="text-4xl font-bold text-white mb-2">Profil vendeur</h1>
+                  <p className="text-gray-300">Retrouvez tous vos biens en vente et gérez vos annonces</p>
+                </div>
+                <div className='flex items-center justify-end'>
+                  <button className="bg-white text-[#346644] font-semibold px-4 py-2 rounded-md transition-colors duration-200">
+                    <Link to="/vendre" className="flex items-center gap-2">
+                      Vendre un article
+                    </Link>
+                  </button>
+                </div>
+              </div>
+
+
             </div>
             {loading ? (
                 <div className="text-white text-center">Chargement des articles...</div>
@@ -61,7 +74,7 @@ function ProfilVendeur() {
                   Aucun article publié pour le moment.
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 3xl:grid-cols-5 gap-6 mt-10">
                   {articles.map((article) => (
                       <CardProductFull
                           key={article.id}
@@ -78,15 +91,6 @@ function ProfilVendeur() {
                   ))}
                 </div>
             )}
-            <div className="flex items-center justify-center mt-10">
-              <div className="flex flex-col items-center justify-center">
-                <button className="bg-[#346644] text-white px-4 py-2 rounded-md hover:bg-[#0F2E19] transition-colors duration-200">
-                  <Link to="/vendre" className="flex items-center gap-2">
-                    Vendre un article
-                  </Link>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
