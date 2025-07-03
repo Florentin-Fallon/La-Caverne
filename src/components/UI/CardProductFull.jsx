@@ -18,6 +18,7 @@ function CardProductFull({ title, description, price, image, id }) {
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -33,24 +34,23 @@ function CardProductFull({ title, description, price, image, id }) {
     navigate(`/produit/${id || title.replace(/\s+/g, "-").toLowerCase()}`);
   };
 
-  const handleDelete = async (e) => {
-    e.stopPropagation();
+  const confirmDelete = async () => {
     const token = localStorage.getItem("token");
-    const confirmDelete = window.confirm("Es-tu s\u00fbr de vouloir supprimer cet article ?");
-    if (confirmDelete) {
-      try {
-        const res = await fetch(`https://services.cacahuete.dev/api/lacaverne/articles/${id}`, {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          alert("Article supprim\u00e9 avec succ\u00e8s.");
-          window.location.reload();
-        } else alert("Erreur lors de la suppression.");
-      } catch (err) {
-        console.error(err);
-        alert("Erreur serveur.");
+    try {
+      const res = await fetch(`https://services.cacahuete.dev/api/lacaverne/articles/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        alert("Erreur lors de la suppression.");
       }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur serveur.");
+    } finally {
+      setShowDeleteModal(false);
     }
   };
 
@@ -164,7 +164,10 @@ function CardProductFull({ title, description, price, image, id }) {
                   </button>
                   <button
                       className="bg-white cursor-pointer p-2 rounded-md transition hover:bg-gray-100"
-                      onClick={handleDelete}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDeleteModal(true);
+                      }}
                   >
                     <img
                         className="w-6 h-6 hover:scale-110 transition-transform"
@@ -176,11 +179,35 @@ function CardProductFull({ title, description, price, image, id }) {
             )}
           </div>
         </div>
+        {showDeleteModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full text-center">
+                <h2 className="text-xl font-bold mb-2">Confirmer la suppression</h2>
+                <p className="text-gray-600 mb-6">
+                  Es-tu sûr de vouloir supprimer cet article ? Cette action est irréversible.
+                </p>
+                <div className="flex justify-center gap-4">
+                  <button
+                      onClick={() => setShowDeleteModal(false)}
+                      className="px-4 py-2 cursor-pointer rounded bg-gray-200 hover:bg-gray-300"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                      onClick={confirmDelete}
+                      className="px-4 py-2 cursor-pointer rounded bg-red-500 text-white hover:bg-red-600"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+        )}
         {showEditForm && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-700 bg-opacity-75">
               <div className="bg-white rounded-lg p-6 w-full max-w-lg relative">
                 <button
-                    className="absolute top-2 right-3 text-xl font-bold"
+                    className="absolute cursor-pointer hover:shadow-lg hover:scale-125 transform transition-transform top-2 right-3 text-xl font-bold"
                     onClick={() => {
                       setShowEditForm(false);
                       setSelectedFile(null);
@@ -248,7 +275,7 @@ function CardProductFull({ title, description, price, image, id }) {
                   <div className="flex items-center justify-end">
                     <button
                         type="submit"
-                        className="flex items-end justify-end bg-[#346644] text-white px-4 py-2 mt-6 rounded hover:bg-[#2b5035]"
+                        className="flex items-end cursor-pointer justify-end bg-[#346644] text-white px-4 py-2 mt-6 rounded hover:bg-[#2b5035]"
                     >
                       Sauvegarder
                     </button>

@@ -90,7 +90,7 @@ function OnBoardingProfilVendeur() {
           <div className="flex flex-col items-center justify-center">
             <div className="w-[1250px] bg-white rounded-lg shadow-lg flex flex-col items-center justify-center">
               <div className="flex flex-col space-y-1 w-1/3">
-                <label className="text-sm text-gray-400 mt-10">
+                <label className="text-sm text-black mt-10">
                   Nom d'affichage
                 </label>
                 <input
@@ -100,12 +100,12 @@ function OnBoardingProfilVendeur() {
                       e.target.value.trim() !== "" && description.trim() !== ""
                     );
                   }}
-                  placeholder="Boutique à momo"
-                  className="border-[#0F2E19] border-2 rounded-md pl-4 p-2"
+                  placeholder="La boutique à momo"
+                  className="border-[#0F2E19] text-gray-400 border-2 rounded-md pl-4 p-2"
                 />
               </div>
               <div className="flex flex-col space-y-1 w-1/3">
-                <label className="text-sm text-gray-400 mt-5">
+                <label className="text-sm text-back mt-5">
                   Description
                 </label>
                 <textarea
@@ -119,7 +119,7 @@ function OnBoardingProfilVendeur() {
                       e.target.value.trim() !== "" && name.trim() !== ""
                     );
                   }}
-                  className="border-[#0F2E19] border-2 rounded-md pl-4 p-2"
+                  className="border-[#0F2E19] text-gray-400 border-2 rounded-md pl-4 p-2"
                 />
               </div>
 
