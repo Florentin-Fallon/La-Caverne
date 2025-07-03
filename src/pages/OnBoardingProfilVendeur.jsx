@@ -101,7 +101,7 @@ function OnBoardingProfilVendeur() {
                     );
                   }}
                   placeholder="La boutique à momo"
-                  className="border-[#0F2E19] text-gray-400 border-2 rounded-md pl-4 p-2"
+                  className="border-[#0F2E19] placeholder-gray-400 border-2 rounded-md pl-4 p-2"
                 />
               </div>
               <div className="flex flex-col space-y-1 w-1/3">
@@ -119,7 +119,7 @@ function OnBoardingProfilVendeur() {
                       e.target.value.trim() !== "" && name.trim() !== ""
                     );
                   }}
-                  className="border-[#0F2E19] text-gray-400 border-2 rounded-md pl-4 p-2"
+                  className="border-[#0F2E19] placeholder-gray-400 border-2 rounded-md pl-4 p-2"
                 />
               </div>
 
