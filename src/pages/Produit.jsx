@@ -495,7 +495,7 @@ function Produit() {
               )}
 
               <div className="relative">
-                <div className='grid grid-cols-2 gap-2 w-[60%]'>
+                <div className='grid grid-cols-2 gap-2 w-[80%]'>
                   <button
                     onClick={addToCart}
                     className="bg-white text-[#0F2E19] py-2 my-3 mb-5 px-9 rounded-lg cursor-pointer transition-colors hover:bg-gray-100"
