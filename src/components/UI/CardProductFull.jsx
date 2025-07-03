@@ -153,7 +153,7 @@ function CardProductFull({ title, description, price, image, id }) {
             {isOnProfilVendeur && (
                 <div className="flex items-center justify-end gap-2">
                   <button
-                      className="bg-white p-2 rounded-md transition hover:bg-gray-100"
+                      className="bg-white cursor-pointer p-2 rounded-md transition hover:bg-gray-100"
                       onClick={handleEdit}
                   >
                     <img
@@ -163,7 +163,7 @@ function CardProductFull({ title, description, price, image, id }) {
                     />
                   </button>
                   <button
-                      className="bg-white p-2 rounded-md transition hover:bg-gray-100"
+                      className="bg-white cursor-pointer p-2 rounded-md transition hover:bg-gray-100"
                       onClick={handleDelete}
                   >
                     <img
