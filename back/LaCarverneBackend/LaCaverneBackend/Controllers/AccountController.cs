@@ -21,6 +21,54 @@ public class AccountController : ControllerBase
         _db = db;
     }
     
+    [HttpGet]
+    [Authorize]
+    public object GetAccounts()
+    {
+        Account account = User.Account(_db)!;
+        if (account == null || !account.IsAdmin)
+            return Unauthorized();
+        
+        return _db.Accounts.Select(account => new SellerInfosAccountDto(account, _db.Sellers.Include(seller => seller.Account).Any(seller => seller.Account.Id == account.Id)));
+    }
+    
+    [HttpDelete("{id:int}")]
+    [Authorize]
+    public object DeleteAccount(uint id)
+    {
+        Account account = User.Account(_db)!;
+        if (account == null || !account.IsAdmin)
+            return Unauthorized();
+        
+        Account? accountToDelete = _db.Accounts.Find(id);
+        if (accountToDelete == null)
+            return NotFound("account not found");
+        
+        if (accountToDelete.IsAdmin)
+            return BadRequest("you cannot delete an admin account");
+
+        Seller? seller = _db.Sellers.Include(seller => seller.Account).FirstOrDefault(seller => seller.Account.Id == accountToDelete.Id);
+        if (seller != null)
+        {
+            foreach (Article art in _db.Articles.Include(art => art.Seller).Where(art => art.Seller.Id == seller.Id).ToArray())
+            {
+                _db.TagArticles.RemoveRange(_db.TagArticles.Include(art => art.Article).Where(art => art.Article.Id == art.Id));
+                _db.Likes.RemoveRange(_db.Likes.Include(like => like.Article).Where(like => like.Article.Id == art.Id));
+                _db.Notations.RemoveRange(_db.Notations.Include(notation => notation.Article).Where(notation => notation.Article != null && notation.Article.Id == art.Id));
+                
+                _db.Articles.Remove(art);
+            }
+            
+            _db.Sellers.Remove(seller);
+        }
+        
+        _db.Tokens.RemoveRange(_db.Tokens.Include(token => token.Account).Where(token => token.Account.Id == accountToDelete.Id));
+        _db.Accounts.Remove(accountToDelete);
+        _db.SaveChanges();
+
+        return NoContent();
+    }
+    
     [HttpPost]
     public object CreateAccount([FromBody] CreateAccountDto dto)
     {

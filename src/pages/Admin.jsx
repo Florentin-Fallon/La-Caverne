@@ -4,8 +4,10 @@ import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {AdminArticlesPage} from "./admin/AdminArticlesPage.jsx";
 import {AdminSellersPage} from "./admin/AdminSellersPage.jsx";
+import {AdminAccountsPage} from "./admin/AdminAccountsPage.jsx";
 
 const pages = [
+    {name: "Accounts", comp: <AdminAccountsPage />},
     {name: "Articles", comp: <AdminArticlesPage />},
     {name: "Sellers", comp: <AdminSellersPage />},
 ]
