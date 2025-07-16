@@ -260,6 +260,7 @@ function Vendre() {
               La première photo sera la photo principale. Vous pouvez ajouter
               jusqu'à 5 photos.
             </p>
+
             <Upload.Dragger
               customRequest={handleUpload}
               beforeUpload={beforeUpload}
@@ -279,6 +280,7 @@ function Vendre() {
                 Formats supportés: JPG, PNG, JPEG (max 5MB par image)
               </p>
             </Upload.Dragger>
+            
             {fileList.length > 0 && (
               <div className="mt-4 text-center">
                 <p className="text-sm text-gray-500">
@@ -476,7 +478,7 @@ function Vendre() {
               </Button>
             )}
 
-            {currentStep < steps.length - 1 ? (
+            {currentStep < steps.length - 1 ? (              
               <Button onClick={nextStep} size="large" className="ml-auto">
                 Suivant
               </Button>
